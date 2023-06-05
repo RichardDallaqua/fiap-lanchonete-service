@@ -1,2 +1,7 @@
 application:
   title: "Aplicação desenvolvida por: AmandaPoreto, AndréMelchior e RichardDallaqua"
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://root:root@localhost:27017/db?authSource=admin

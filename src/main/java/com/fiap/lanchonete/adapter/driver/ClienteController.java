@@ -8,24 +8,26 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Cliente> obterClientePorId(@PathVariable("id") int id) {
-//        // Lógica para obter o cliente pelo ID
-//        // Aqui você pode chamar um serviço ou acessar um banco de dados
-//        Cliente cliente = // Obtenha o cliente pelo ID
-//
-//        if (cliente != null) {
-//            return ResponseEntity.ok(cliente);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Cliente> obterClientePorId(@PathVariable("id") UUID id) throws Exception {
+        // Lógica para obter o cliente pelo ID
+        // Aqui você pode chamar um serviço ou acessar um banco de dados
+        Cliente cliente = clienteService.buscarClientePorId(id);
+
+        if (cliente != null) {
+            return ResponseEntity.ok(cliente);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @PostMapping
     public ResponseEntity<Cliente> criarCliente(@RequestBody Cliente cliente) {

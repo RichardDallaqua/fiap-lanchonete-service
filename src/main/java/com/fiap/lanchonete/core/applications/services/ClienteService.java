@@ -5,6 +5,8 @@ import com.fiap.lanchonete.core.domain.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class ClienteService {
 
@@ -13,5 +15,9 @@ public class ClienteService {
 
     public void cadastrarCliente(Cliente cliente) {
         clienteRepository.save(cliente);
+    }
+
+    public Cliente buscarClientePorId(UUID id) throws Exception {
+        return clienteRepository.findById(id).orElseThrow(() -> new Exception("Não foi possivel encontrar o cliente."));
     }
 }

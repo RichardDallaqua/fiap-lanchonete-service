@@ -18,9 +18,9 @@ import java.util.UUID;
 public class Cliente {
 
     @Id
-    UUID id;
-    String nome;
-    CPF cpf;
-    String telefone;
-    LocalDate data;
+    private UUID id;
+    private String nome;
+    private CPF cpf;
+    private String telefone;
+    private LocalDate data;
 }

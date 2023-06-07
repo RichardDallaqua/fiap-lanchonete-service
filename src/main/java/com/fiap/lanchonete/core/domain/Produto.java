@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -21,7 +22,7 @@ import java.math.BigDecimal;
 public class Produto implements Serializable {
 
     @Id
-    private String id;
+    private UUID id;
     private String nome;
     private String descricao;
     @Field(targetType = FieldType.DECIMAL128)

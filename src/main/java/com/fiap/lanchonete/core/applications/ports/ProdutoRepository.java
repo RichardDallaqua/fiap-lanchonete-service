@@ -5,8 +5,9 @@ import com.fiap.lanchonete.core.domain.type.CategoriaProduto;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
+import java.util.UUID;
 
-public interface ProdutoRepository extends MongoRepository<Produto, String> {
+public interface ProdutoRepository extends MongoRepository<Produto, UUID> {
 
     List<Produto> findAllByCategoria(CategoriaProduto categoriaProduto);
 }

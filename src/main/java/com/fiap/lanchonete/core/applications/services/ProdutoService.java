@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ProdutoService {
@@ -28,7 +29,7 @@ public class ProdutoService {
         return produtoRepository.findAllByCategoria(CategoriaProduto.valueOf(categoria.toUpperCase()));
     }
 
-    public Produto atualizarProduto(String id, ProdutoDTO produtoDTO){
+    public Produto atualizarProduto(UUID id, ProdutoDTO produtoDTO){
         Produto produtoToUpdate = produtoRepository.findById(id).orElseThrow(() -> new NotFoundException("Não foi possível localizar produto"));
         CategoriaProduto.existsInValues(produtoDTO.getCategoria());
         produtoToUpdate.setNome(produtoDTO.getNome());
@@ -38,7 +39,7 @@ public class ProdutoService {
         return produtoRepository.save(produtoToUpdate);
     }
 
-    public void deletarProduto(String id){
+    public void deletarProduto(UUID id){
         Produto produtoToDelete = produtoRepository.findById(id).orElseThrow(() -> new NotFoundException("Não foi possível localizar produto"));
         produtoRepository.delete(produtoToDelete);
     }

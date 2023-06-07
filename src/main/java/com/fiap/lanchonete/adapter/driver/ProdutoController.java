@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/produtos")
@@ -29,12 +30,12 @@ public class ProdutoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Produto> atualizarProduto(@PathVariable("id") String id, @RequestBody ProdutoDTO produtoDTO){
+    public ResponseEntity<Produto> atualizarProduto(@PathVariable("id") UUID id, @RequestBody ProdutoDTO produtoDTO){
         return ResponseEntity.ok(produtoService.atualizarProduto(id, produtoDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarProduto(@PathVariable("id") String id){
+    public ResponseEntity<Void> deletarProduto(@PathVariable("id") UUID id){
         produtoService.deletarProduto(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

@@ -19,7 +19,7 @@ public class ProdutoService {
 
     public Produto cadastrarProduto(ProdutoDTO produtoDTO){
         CategoriaProduto.existsInValues(produtoDTO.getCategoria());
-        return produtoRepository.save(Produto.builder().nome(produtoDTO.getNome())
+        return produtoRepository.save(Produto.builder().id(UUID.randomUUID()).nome(produtoDTO.getNome())
                 .descricao(produtoDTO.getDescricao()).preco(produtoDTO.getPreco())
                 .categoria(CategoriaProduto.valueOf(produtoDTO.getCategoria().toUpperCase())).build());
     }

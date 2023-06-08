@@ -19,7 +19,7 @@ import java.util.UUID;
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Document(collection = "produtos")
-public class Produto implements Serializable {
+public class Produto  {
 
     @Id
     private UUID id;

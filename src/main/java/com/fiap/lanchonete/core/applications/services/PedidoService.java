@@ -1,0 +1,54 @@
+package com.fiap.lanchonete.core.applications.services;
+
+import com.fiap.lanchonete.core.applications.ports.ClienteRepository;
+import com.fiap.lanchonete.core.applications.ports.PedidoRepository;
+import com.fiap.lanchonete.core.applications.ports.ProdutoRepository;
+import com.fiap.lanchonete.core.domain.CPF;
+import com.fiap.lanchonete.core.domain.Cliente;
+import com.fiap.lanchonete.core.domain.Pedido;
+import com.fiap.lanchonete.core.domain.Produto;
+import com.fiap.lanchonete.core.domain.exception.NotFoundException;
+import com.fiap.lanchonete.core.domain.type.StatusPedido;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.UUID;
+
+@Service
+public class PedidoService {
+
+    @Autowired
+    private PedidoRepository pedidoRepository;
+
+    @Autowired
+    private ClienteRepository clienteRepository;
+
+    @Autowired
+    private ProdutoRepository produtoRepository;
+
+    public Pedido iniciarPedido(String cpf){
+        Pedido pedido = Pedido.builder().id(UUID.randomUUID()).produtoList(new ArrayList<>()).quantidadeTotalDeItems(0).valorTotalDaCompra(BigDecimal.ZERO).build();
+        if(Objects.isNull(cpf) || cpf.isBlank()){
+            pedido.setCliente(null);
+        }else{
+            Cliente cliente = clienteRepository.findByCpf(new CPF(cpf)).orElseThrow(() -> new NotFoundException("Cliente não encontrado"));
+            pedido.setCliente(cliente);
+        }
+        pedido.setStatusPedido(StatusPedido.ABERTO);
+        return pedidoRepository.save(pedido);
+    }
+
+    public Pedido adicionarProdutosPedido(UUID idPedido, UUID idProduto){
+        Pedido pedido = pedidoRepository.findById(idPedido).orElseThrow(() -> new NotFoundException("Pedido não encontrado"));
+        Produto produto = produtoRepository.findById(idProduto).orElseThrow(() -> new NotFoundException("Produto não encontrado"));
+        pedido.getProdutoList().add(produto);
+        pedido.setQuantidadeTotalDeItems(pedido.getProdutoList().size());
+        BigDecimal valorTotal = pedido.getValorTotalDaCompra().add(produto.getPreco());
+        pedido.setValorTotalDaCompra(valorTotal);
+        return pedidoRepository.save(pedido);
+    }
+
+}

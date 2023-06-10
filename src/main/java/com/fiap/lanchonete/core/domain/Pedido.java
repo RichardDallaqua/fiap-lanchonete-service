@@ -16,7 +16,7 @@ import java.util.UUID;
 @Builder
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Document(collection = "pedido")
+@Document(collection = "pedidos")
 public class Pedido {
 
     @Id
@@ -25,5 +25,5 @@ public class Pedido {
     private BigDecimal valorTotalDaCompra;
     private int quantidadeTotalDeItems;
     private Cliente cliente;
-    private StatusPedido carrinhoFinalizado;
+    private StatusPedido statusPedido;
 }

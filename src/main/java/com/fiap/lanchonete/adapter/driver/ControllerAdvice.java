@@ -4,6 +4,7 @@ import com.fiap.lanchonete.core.domain.dto.ErrorResponse;
 import com.fiap.lanchonete.core.domain.exception.InvalidTypeException;
 import com.fiap.lanchonete.core.domain.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,5 +35,12 @@ public class ControllerAdvice {
     @ResponseStatus(HttpStatus.PRECONDITION_FAILED)
     public ErrorResponse handleInvalidTypeException(InvalidTypeException invalidTypeException){
         return ErrorResponse.builder().message(invalidTypeException.getMessage()).build();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleHttpMessageNotReadableException(HttpMessageNotReadableException httpMessageNotReadableException){
+        return ErrorResponse.builder().message(httpMessageNotReadableException.getMessage()).build();
     }
 }

@@ -2,9 +2,7 @@ package com.fiap.lanchonete.core.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fiap.lanchonete.core.domain.type.CategoriaProduto;
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -18,6 +16,8 @@ import java.util.UUID;
 @Builder
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "produtos")
 public class Produto  {
 

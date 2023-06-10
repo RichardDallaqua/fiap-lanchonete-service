@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -18,10 +19,9 @@ public class ProdutoService {
     private ProdutoRepository produtoRepository;
 
     public Produto cadastrarProduto(ProdutoDTO produtoDTO){
-        CategoriaProduto.existsInValues(produtoDTO.getCategoria());
         return produtoRepository.save(Produto.builder().id(UUID.randomUUID()).nome(produtoDTO.getNome())
                 .descricao(produtoDTO.getDescricao()).preco(produtoDTO.getPreco())
-                .categoria(CategoriaProduto.valueOf(produtoDTO.getCategoria().toUpperCase())).build());
+                .categoria(produtoDTO.getCategoria()).build());
     }
 
     public List<Produto> buscarProdutosCategoria(String categoria){
@@ -31,12 +31,17 @@ public class ProdutoService {
 
     public Produto atualizarProduto(UUID id, ProdutoDTO produtoDTO){
         Produto produtoToUpdate = produtoRepository.findById(id).orElseThrow(() -> new NotFoundException("Não foi possível localizar produto"));
-        CategoriaProduto.existsInValues(produtoDTO.getCategoria());
-        produtoToUpdate.setNome(produtoDTO.getNome());
-        produtoToUpdate.setDescricao(produtoDTO.getDescricao());
-        produtoToUpdate.setPreco(produtoDTO.getPreco());
-        produtoToUpdate.setCategoria(CategoriaProduto.valueOf(produtoDTO.getCategoria().toUpperCase()));
-        return produtoRepository.save(produtoToUpdate);
+        Produto produtoAtualizado = new Produto();
+        produtoAtualizado.setId(produtoToUpdate.getId());
+        produtoAtualizado.setNome(Boolean.TRUE.equals(Objects.nonNull(produtoDTO.getNome())) ? produtoDTO.getNome() : produtoToUpdate.getNome());
+        produtoAtualizado.setDescricao(Boolean.TRUE.equals(Objects.nonNull(produtoDTO.getDescricao())) ? produtoDTO.getDescricao() : produtoToUpdate.getDescricao());
+        produtoAtualizado.setPreco(Boolean.TRUE.equals(Objects.nonNull(produtoDTO.getPreco())) ? produtoDTO.getPreco() : produtoToUpdate.getPreco());
+        produtoAtualizado.setCategoria(Boolean.TRUE.equals(Objects.nonNull(produtoDTO.getCategoria())) ? produtoDTO.getCategoria() : produtoToUpdate.getCategoria());
+        if(Objects.equals(produtoToUpdate, produtoAtualizado)){
+            return produtoToUpdate;
+        }else{
+            return produtoRepository.save(produtoAtualizado);
+        }
     }
 
     public void deletarProduto(UUID id){

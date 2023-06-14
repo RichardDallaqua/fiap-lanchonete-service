@@ -84,7 +84,7 @@ public class PedidoServiceTest {
         pedidoSalvo.setValorTotalDaCompra(BigDecimal.valueOf(10.0));
 
         // Configurando o comportamento dos mocks
-        Mockito.when(pedidoRepository.findById(idPedido)).thenReturn(Optional.of(pedido));
+        Mockito.when(pedidoRepository.findByIdAndStatusPedido(idPedido, StatusPedido.ABERTO)).thenReturn(Optional.of(pedido));
         Mockito.when(produtoRepository.findById(idProduto)).thenReturn(Optional.of(produto));
         Mockito.when(pedidoRepository.save(Mockito.any())).thenReturn(pedidoSalvo);
 
@@ -99,7 +99,7 @@ public class PedidoServiceTest {
         Assertions.assertEquals(1, pedidoAtualizado.getQuantidadeTotalDeItems());
         Assertions.assertEquals(BigDecimal.valueOf(10.0), pedidoAtualizado.getValorTotalDaCompra());
 
-        Mockito.verify(pedidoRepository, Mockito.times(1)).findById(Mockito.eq(idPedido));
+        Mockito.verify(pedidoRepository, Mockito.times(1)).findByIdAndStatusPedido(Mockito.eq(idPedido), Mockito.eq(StatusPedido.ABERTO));
         Mockito.verify(produtoRepository, Mockito.times(1)).findById(Mockito.eq(idProduto));
         Mockito.verify(pedidoRepository, Mockito.times(1)).save(Mockito.any());
     }

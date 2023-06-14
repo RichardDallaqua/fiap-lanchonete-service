@@ -13,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class PedidoService {
@@ -42,13 +40,33 @@ public class PedidoService {
     }
 
     public Pedido adicionarProdutosPedido(UUID idPedido, UUID idProduto){
-        Pedido pedido = pedidoRepository.findById(idPedido).orElseThrow(() -> new NotFoundException("Pedido não encontrado"));
+        Pedido pedido = pedidoRepository.findByIdAndStatusPedido(idPedido, StatusPedido.ABERTO).orElseThrow(() -> new NotFoundException("Pedido não encontrado"));
         Produto produto = produtoRepository.findById(idProduto).orElseThrow(() -> new NotFoundException("Produto não encontrado"));
         pedido.getProdutoList().add(produto);
         pedido.setQuantidadeTotalDeItems(pedido.getProdutoList().size());
         BigDecimal valorTotal = pedido.getValorTotalDaCompra().add(produto.getPreco());
         pedido.setValorTotalDaCompra(valorTotal);
         return pedidoRepository.save(pedido);
+    }
+
+    public Pedido removerProdutosPedido(UUID idPedido, UUID idProduto){
+        Pedido pedido = pedidoRepository.findByIdAndStatusPedido(idPedido, StatusPedido.ABERTO).orElseThrow(() -> new NotFoundException("Pedido não encontrado"));
+        Produto produtoToRemove = pedido.getProdutoList().stream().filter(x -> x.getId().equals(idProduto)).findFirst().orElseThrow(() -> new NotFoundException("Produto não encontrado no pedido"));
+        pedido.getProdutoList().remove(produtoToRemove);
+        pedido.setQuantidadeTotalDeItems(pedido.getProdutoList().size());
+        BigDecimal valorTotal = pedido.getValorTotalDaCompra().subtract(produtoToRemove.getPreco());
+        pedido.setValorTotalDaCompra(valorTotal);
+        return pedidoRepository.save(pedido);
+    }
+
+    public List<Pedido> listarPedidosNaoFinalizados(){
+        return pedidoRepository.findAllExcept(Arrays.asList(StatusPedido.PEDIDO_RETIRADO, StatusPedido.CANCELADO));
+    }
+
+    public void alterarStatusPedido(UUID id, StatusPedido statusPedido){
+        Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Pedido não encontrado"));
+        pedido.setStatusPedido(statusPedido);
+        pedidoRepository.save(pedido);
     }
 
 }

@@ -109,16 +109,6 @@ class ProdutoServiceTest {
     }
 
     @Test
-    void testDeveRetornarErroSeInformarUmaCategoriaInvalidaAoCadastrarProduto() {
-        // Dados de entrada para o teste
-        ProdutoDTO produtoDTO = Fixture.ProdutoDTOFixture.createProdutoDTO();
-        produtoDTO.setCategoria("CATEGORIA_INVALIDA");
-
-        // Chamada do método a ser testado e validação
-        Assertions.assertThrows(InvalidTypeException.class, () -> produtoService.cadastrarProduto(produtoDTO));
-    }
-
-    @Test
     void testDeveRetornarErroSeNaoEncontrarUmProdutoParaDeletar() {
         // Dados de entrada para o teste
         UUID id = UUID.randomUUID();

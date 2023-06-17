@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoSettings;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -63,6 +64,13 @@ public class PedidoServiceTest {
     }
 
     @Test
+    public void testeIniciarPedidoMasCpfNull(){
+        pedidoService.iniciarPedido(null);
+        Mockito.verify(clienteRepository, Mockito.times(0)).findByCpf(Mockito.any());
+        Mockito.verify(pedidoRepository, Mockito.times(1)).save(Mockito.any());
+    }
+
+    @Test
     public void testAdicionarProdutosPedido() {
         // Criando dados de entrada para o teste
         UUID idPedido = UUID.randomUUID();
@@ -102,5 +110,53 @@ public class PedidoServiceTest {
         Mockito.verify(pedidoRepository, Mockito.times(1)).findByIdAndStatusPedido(Mockito.eq(idPedido), Mockito.eq(StatusPedido.ABERTO));
         Mockito.verify(produtoRepository, Mockito.times(1)).findById(Mockito.eq(idProduto));
         Mockito.verify(pedidoRepository, Mockito.times(1)).save(Mockito.any());
+    }
+
+    @Test
+    public void testRemoverProdutoPedido(){
+        UUID idPedido = UUID.randomUUID();
+        UUID idProduto = UUID.randomUUID();
+
+        Pedido pedido = Fixture.PedidoFixture.criarPedido();
+        pedido.setId(idPedido);
+        pedido.setStatusPedido(StatusPedido.ABERTO);
+
+        Produto produto = new Produto();
+        produto.setId(idProduto);
+        produto.setPreco(BigDecimal.valueOf(10.0));
+
+        Pedido pedidoSalvo = Fixture.PedidoFixture.criarPedido();
+        pedidoSalvo.setId(idPedido);
+        pedidoSalvo.setStatusPedido(StatusPedido.ABERTO);
+        pedidoSalvo.getProdutoList().add(produto);
+        pedidoSalvo.setQuantidadeTotalDeItems(1);
+        pedidoSalvo.setValorTotalDaCompra(BigDecimal.valueOf(10.0));
+
+        Mockito.when(pedidoRepository.findByIdAndStatusPedido(idPedido, StatusPedido.ABERTO)).thenReturn(Optional.of(pedidoSalvo));
+
+        pedidoService.removerProdutosPedido(idPedido, idProduto);
+        Mockito.verify(pedidoRepository, Mockito.times(1)).save(Mockito.any());
+    }
+
+    @Test
+    public void testStatusPedidoAlterado(){
+        UUID idPedido = UUID.randomUUID();
+
+        Pedido pedido = Fixture.PedidoFixture.criarPedido();
+        pedido.setId(idPedido);
+        pedido.setStatusPedido(StatusPedido.ABERTO);
+
+        Mockito.when(pedidoRepository.findById(idPedido)).thenReturn(Optional.of(pedido));
+
+        pedidoService.alterarStatusPedido(idPedido, StatusPedido.PREPARANDO_PEDIDO);
+
+        Mockito.verify(pedidoRepository, Mockito.times(1)).save(Mockito.any());
+
+    }
+
+    @Test
+    public void testPedidosNaoFinalizadosListados(){
+        pedidoService.listarPedidosNaoFinalizados();
+        Mockito.verify(pedidoRepository).findAllExcept(Arrays.asList(StatusPedido.PEDIDO_RETIRADO, StatusPedido.CANCELADO));
     }
 }

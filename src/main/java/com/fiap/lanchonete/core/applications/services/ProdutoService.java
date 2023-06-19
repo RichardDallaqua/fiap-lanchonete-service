@@ -18,34 +18,40 @@ public class ProdutoService {
     @Autowired
     private ProdutoRepository produtoRepository;
 
-    public Produto cadastrarProduto(ProdutoDTO produtoDTO){
-        return produtoRepository.save(Produto.builder().id(UUID.randomUUID()).nome(produtoDTO.getNome())
-                .descricao(produtoDTO.getDescricao()).preco(produtoDTO.getPreco())
-                .categoria(produtoDTO.getCategoria()).build());
+    public Produto cadastrarProduto(ProdutoDTO produtoDTO) {
+        return produtoRepository.save(
+                Produto.builder().id(UUID.randomUUID()).nome(produtoDTO.getNome()).descricao(produtoDTO.getDescricao())
+                        .preco(produtoDTO.getPreco()).categoria(produtoDTO.getCategoria()).build());
     }
 
-    public List<Produto> buscarProdutosCategoria(String categoria){
+    public List<Produto> buscarProdutosCategoria(String categoria) {
         CategoriaProduto.existsInValues(categoria);
         return produtoRepository.findAllByCategoria(CategoriaProduto.valueOf(categoria.toUpperCase()));
     }
 
-    public Produto atualizarProduto(UUID id, ProdutoDTO produtoDTO){
-        Produto produtoToUpdate = produtoRepository.findById(id).orElseThrow(() -> new NotFoundException("Não foi possível localizar produto"));
+    public Produto atualizarProduto(UUID id, ProdutoDTO produtoDTO) {
+        Produto produtoToUpdate = produtoRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Não foi possível localizar produto"));
         Produto produtoAtualizado = new Produto();
         produtoAtualizado.setId(produtoToUpdate.getId());
-        produtoAtualizado.setNome(Boolean.TRUE.equals(Objects.nonNull(produtoDTO.getNome())) ? produtoDTO.getNome() : produtoToUpdate.getNome());
-        produtoAtualizado.setDescricao(Boolean.TRUE.equals(Objects.nonNull(produtoDTO.getDescricao())) ? produtoDTO.getDescricao() : produtoToUpdate.getDescricao());
-        produtoAtualizado.setPreco(Boolean.TRUE.equals(Objects.nonNull(produtoDTO.getPreco())) ? produtoDTO.getPreco() : produtoToUpdate.getPreco());
-        produtoAtualizado.setCategoria(Boolean.TRUE.equals(Objects.nonNull(produtoDTO.getCategoria())) ? produtoDTO.getCategoria() : produtoToUpdate.getCategoria());
-        if(Objects.equals(produtoToUpdate, produtoAtualizado)){
+        produtoAtualizado.setNome(Boolean.TRUE.equals(Objects.nonNull(produtoDTO.getNome())) ? produtoDTO.getNome()
+                : produtoToUpdate.getNome());
+        produtoAtualizado.setDescricao(Boolean.TRUE.equals(Objects.nonNull(produtoDTO.getDescricao()))
+                ? produtoDTO.getDescricao() : produtoToUpdate.getDescricao());
+        produtoAtualizado.setPreco(Boolean.TRUE.equals(Objects.nonNull(produtoDTO.getPreco())) ? produtoDTO.getPreco()
+                : produtoToUpdate.getPreco());
+        produtoAtualizado.setCategoria(Boolean.TRUE.equals(Objects.nonNull(produtoDTO.getCategoria()))
+                ? produtoDTO.getCategoria() : produtoToUpdate.getCategoria());
+        if (Objects.equals(produtoToUpdate, produtoAtualizado)) {
             return produtoToUpdate;
-        }else{
+        } else {
             return produtoRepository.save(produtoAtualizado);
         }
     }
 
-    public void deletarProduto(UUID id){
-        Produto produtoToDelete = produtoRepository.findById(id).orElseThrow(() -> new NotFoundException("Não foi possível localizar produto"));
+    public void deletarProduto(UUID id) {
+        Produto produtoToDelete = produtoRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Não foi possível localizar produto"));
         produtoRepository.delete(produtoToDelete);
     }
 }

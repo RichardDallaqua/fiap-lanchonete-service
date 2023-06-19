@@ -20,22 +20,22 @@ public class ProdutoController {
     private ProdutoService produtoService;
 
     @PostMapping
-    public ResponseEntity<Produto> cadastrarProduto(@RequestBody @Valid ProdutoDTO produtoDTO){
+    public ResponseEntity<Produto> cadastrarProduto(@RequestBody @Valid ProdutoDTO produtoDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoService.cadastrarProduto(produtoDTO));
     }
 
     @GetMapping("/categorias/{categoria}")
-    public ResponseEntity<List<Produto>> buscarProdutosPorCategoria(@PathVariable("categoria") String categoria){
+    public ResponseEntity<List<Produto>> buscarProdutosPorCategoria(@PathVariable("categoria") String categoria) {
         return ResponseEntity.ok(produtoService.buscarProdutosCategoria(categoria));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Produto> atualizarProduto(@PathVariable("id") UUID id, @RequestBody ProdutoDTO produtoDTO){
+    public ResponseEntity<Produto> atualizarProduto(@PathVariable("id") UUID id, @RequestBody ProdutoDTO produtoDTO) {
         return ResponseEntity.ok(produtoService.atualizarProduto(id, produtoDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarProduto(@PathVariable("id") UUID id){
+    public ResponseEntity<Void> deletarProduto(@PathVariable("id") UUID id) {
         produtoService.deletarProduto(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

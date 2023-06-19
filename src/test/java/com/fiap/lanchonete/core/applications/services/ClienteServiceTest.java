@@ -37,7 +37,7 @@ class ClienteServiceTest {
 
     @Test
     void testBuscarClientePorIdExistente() throws Exception {
-        Cliente cliente =  Fixture.ClienteFixture.criarClientePadrao();
+        Cliente cliente = Fixture.ClienteFixture.criarClientePadrao();
 
         when(clienteRepository.findById(any())).thenReturn(Optional.of(cliente));
 

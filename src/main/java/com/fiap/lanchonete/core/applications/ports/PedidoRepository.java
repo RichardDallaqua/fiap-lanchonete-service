@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface PedidoRepository extends MongoRepository<Pedido, UUID>{
+public interface PedidoRepository extends MongoRepository<Pedido, UUID> {
 
     @Query("{ 'statusPedido' : { $ne: ?0 } }")
     List<Pedido> findAllExcept(List<StatusPedido> statusPedidos);

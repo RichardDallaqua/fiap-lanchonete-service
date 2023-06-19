@@ -29,12 +29,8 @@ public class PagamentoService {
                 .orElseThrow(() -> new NotFoundException("Pedido não encontrado"));
 
         WebClient webClient = WebClient.create();
-        webClient.get()
-                .uri("https://007z3.mocklab.io/realizarpagamento")
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .bodyToMono(PagamentoResponse.class)
-                .subscribe(respostaPagamento -> {
+        webClient.get().uri("https://007z3.mocklab.io/realizarpagamento").accept(MediaType.APPLICATION_JSON).retrieve()
+                .bodyToMono(PagamentoResponse.class).subscribe(respostaPagamento -> {
                     pedido.setStatusPagamento(respostaPagamento.getStatus());
                     if (respostaPagamento.getStatus().equals(StatusPagamento.PAGAMENTO_APROVADO)) {
                         pedido.setStatusPedido(StatusPedido.RECEBIDO);

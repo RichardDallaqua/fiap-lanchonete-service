@@ -17,12 +17,8 @@ public class Fixture {
     public class ProdutoFixture {
 
         public static Produto createProduto() {
-            return Produto.builder()
-                    .id(UUID.randomUUID())
-                    .nome("Produto Teste")
-                    .descricao("Descrição do Produto Teste")
-                    .preco(new BigDecimal("9.99"))
-                    .categoria(CategoriaProduto.BEBIDA).build();
+            return Produto.builder().id(UUID.randomUUID()).nome("Produto Teste").descricao("Descrição do Produto Teste")
+                    .preco(new BigDecimal("9.99")).categoria(CategoriaProduto.BEBIDA).build();
         }
     }
 
@@ -40,26 +36,17 @@ public class Fixture {
 
     public class ClienteFixture {
         public static Cliente criarClientePadrao() {
-            return Cliente.builder()
-                    .id(UUID.randomUUID())
-                    .nome("Richard Dallaqua")
-                    .cpf(new CPF("02366792018"))
-                    .telefone("1234567890")
-                    .data(LocalDate.of(1990, 1, 1))
-                    .build();
+            return Cliente.builder().id(UUID.randomUUID()).nome("Richard Dallaqua").cpf(new CPF("02366792018"))
+                    .telefone("1234567890").data(LocalDate.of(1990, 1, 1)).build();
         }
     }
 
     public class PedidoFixture {
 
         public static Pedido criarPedido() {
-            return Pedido.builder()
-                    .id(UUID.randomUUID())
-                    .produtoList(new ArrayList<>())
-                    .valorTotalDaCompra(BigDecimal.ZERO)
-                    .quantidadeTotalDeItems(0)
-                    .cliente(ClienteFixture.criarClientePadrao())
-                    .statusPedido(StatusPedido.ABERTO).build();
+            return Pedido.builder().id(UUID.randomUUID()).produtoList(new ArrayList<>())
+                    .valorTotalDaCompra(BigDecimal.ZERO).quantidadeTotalDeItems(0)
+                    .cliente(ClienteFixture.criarClientePadrao()).statusPedido(StatusPedido.ABERTO).build();
         }
     }
 }

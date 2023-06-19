@@ -57,7 +57,7 @@ class ProdutoServiceTest {
     @Test
     void testBuscarProdutosCategoria() {
         // Dados de entrada para o teste
-        String categoria =CategoriaProduto.BEBIDA.toString();
+        String categoria = CategoriaProduto.BEBIDA.toString();
 
         // Comportamento esperado do mock do repositório
         List<Produto> produtos = new ArrayList<>();

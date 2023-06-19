@@ -19,27 +19,30 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @PostMapping
-    public ResponseEntity<Pedido> iniciarPedido(@RequestParam(value = "cpf", required = false) String cpf){
+    public ResponseEntity<Pedido> iniciarPedido(@RequestParam(value = "cpf", required = false) String cpf) {
         return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.iniciarPedido(cpf));
     }
 
     @PutMapping("/{idPedido}/adicionar/{idProduto}")
-    public ResponseEntity<Pedido> adicionarProdutos(@PathVariable("idPedido") UUID idPedido, @PathVariable("idProduto") UUID idProduto){
+    public ResponseEntity<Pedido> adicionarProdutos(@PathVariable("idPedido") UUID idPedido,
+            @PathVariable("idProduto") UUID idProduto) {
         return ResponseEntity.ok(pedidoService.adicionarProdutosPedido(idPedido, idProduto));
     }
 
     @PutMapping("/{idPedido}/remover/{idProduto}")
-    public ResponseEntity<Pedido> removerProdutos(@PathVariable("idPedido") UUID idPedido, @PathVariable("idProduto") UUID idProduto){
+    public ResponseEntity<Pedido> removerProdutos(@PathVariable("idPedido") UUID idPedido,
+            @PathVariable("idProduto") UUID idProduto) {
         return ResponseEntity.ok(pedidoService.removerProdutosPedido(idPedido, idProduto));
     }
 
     @GetMapping()
-    public ResponseEntity<List<Pedido>> listarPedidos(){
+    public ResponseEntity<List<Pedido>> listarPedidos() {
         return ResponseEntity.ok(pedidoService.listarPedidosNaoFinalizados());
     }
 
     @PutMapping("/{idPedido}/status/{status}")
-    public ResponseEntity<Void> alterarStatus(@PathVariable("idPedido") UUID idPedido, @PathVariable("status") StatusPedido statusPedido){
+    public ResponseEntity<Void> alterarStatus(@PathVariable("idPedido") UUID idPedido,
+            @PathVariable("status") StatusPedido statusPedido) {
         pedidoService.alterarStatusPedido(idPedido, statusPedido);
         return ResponseEntity.noContent().build();
     }

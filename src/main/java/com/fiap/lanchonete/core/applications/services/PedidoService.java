@@ -8,6 +8,7 @@ import com.fiap.lanchonete.core.domain.Cliente;
 import com.fiap.lanchonete.core.domain.Pedido;
 import com.fiap.lanchonete.core.domain.Produto;
 import com.fiap.lanchonete.core.domain.exception.NotFoundException;
+import com.fiap.lanchonete.core.domain.type.StatusPagamento;
 import com.fiap.lanchonete.core.domain.type.StatusPedido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

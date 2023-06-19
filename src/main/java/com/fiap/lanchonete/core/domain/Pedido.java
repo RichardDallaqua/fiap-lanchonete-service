@@ -1,6 +1,7 @@
 package com.fiap.lanchonete.core.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fiap.lanchonete.core.domain.type.StatusPagamento;
 import com.fiap.lanchonete.core.domain.type.StatusPedido;
 import lombok.Builder;
 import lombok.Data;
@@ -26,4 +27,5 @@ public class Pedido {
     private int quantidadeTotalDeItems;
     private Cliente cliente;
     private StatusPedido statusPedido;
+    private StatusPagamento statusPagamento;
 }

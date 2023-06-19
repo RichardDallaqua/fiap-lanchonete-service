@@ -19,7 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "produtos")
-public class Produto  {
+public class Produto {
 
     @Id
     private UUID id;

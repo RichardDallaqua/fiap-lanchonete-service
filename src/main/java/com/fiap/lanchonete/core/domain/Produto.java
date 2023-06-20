@@ -1,16 +1,21 @@
 package com.fiap.lanchonete.core.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fiap.lanchonete.core.domain.type.CategoriaProduto;
-import lombok.*;
+import java.math.BigDecimal;
+import java.util.UUID;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fiap.lanchonete.core.domain.type.CategoriaProduto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Builder

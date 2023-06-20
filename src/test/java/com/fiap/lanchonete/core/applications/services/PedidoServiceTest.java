@@ -1,5 +1,19 @@
 package com.fiap.lanchonete.core.applications.services;
 
+import static org.mockito.ArgumentMatchers.eq;
+
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoSettings;
+
 import com.fiap.lanchonete.core.applications.ports.ClienteRepository;
 import com.fiap.lanchonete.core.applications.ports.PedidoRepository;
 import com.fiap.lanchonete.core.applications.ports.ProdutoRepository;
@@ -8,19 +22,6 @@ import com.fiap.lanchonete.core.domain.Pedido;
 import com.fiap.lanchonete.core.domain.Produto;
 import com.fiap.lanchonete.core.domain.type.StatusPedido;
 import com.fiap.lanchonete.fixture.Fixture;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoSettings;
-
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @MockitoSettings
 public class PedidoServiceTest {
@@ -108,9 +109,9 @@ public class PedidoServiceTest {
         Assertions.assertEquals(1, pedidoAtualizado.getQuantidadeTotalDeItems());
         Assertions.assertEquals(BigDecimal.valueOf(10.0), pedidoAtualizado.getValorTotalDaCompra());
 
-        Mockito.verify(pedidoRepository, Mockito.times(1)).findByIdAndStatusPedido(Mockito.eq(idPedido),
+        Mockito.verify(pedidoRepository, Mockito.times(1)).findByIdAndStatusPedido(eq(idPedido),
                 Mockito.eq(StatusPedido.ABERTO));
-        Mockito.verify(produtoRepository, Mockito.times(1)).findById(Mockito.eq(idProduto));
+        Mockito.verify(produtoRepository, Mockito.times(1)).findById(idProduto);
         Mockito.verify(pedidoRepository, Mockito.times(1)).save(Mockito.any());
     }
 

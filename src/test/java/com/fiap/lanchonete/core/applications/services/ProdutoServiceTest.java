@@ -1,12 +1,15 @@
 package com.fiap.lanchonete.core.applications.services;
 
-import com.fiap.lanchonete.core.applications.ports.ProdutoRepository;
-import com.fiap.lanchonete.core.domain.Produto;
-import com.fiap.lanchonete.core.domain.dto.ProdutoDTO;
-import com.fiap.lanchonete.core.domain.exception.InvalidTypeException;
-import com.fiap.lanchonete.core.domain.exception.NotFoundException;
-import com.fiap.lanchonete.core.domain.type.CategoriaProduto;
-import com.fiap.lanchonete.fixture.Fixture;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,14 +18,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoSettings;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import com.fiap.lanchonete.core.applications.ports.ProdutoRepository;
+import com.fiap.lanchonete.core.domain.Produto;
+import com.fiap.lanchonete.core.domain.dto.ProdutoDTO;
+import com.fiap.lanchonete.core.domain.exception.NotFoundException;
+import com.fiap.lanchonete.core.domain.type.CategoriaProduto;
+import com.fiap.lanchonete.fixture.Fixture;
 
 @MockitoSettings
 class ProdutoServiceTest {

@@ -1,11 +1,7 @@
 package com.fiap.lanchonete.core.domain;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
@@ -23,7 +19,7 @@ public class CPF {
 
     private boolean validarCPF(String cpf) {
         // Remover caracteres não numéricos do CPF
-        cpf = cpf.replaceAll("[^0-9]", "");
+        cpf = cpf.replaceAll("\\D", "");
 
         // Verificar se o CPF possui 11 dígitos
         if (cpf.length() != 11) {

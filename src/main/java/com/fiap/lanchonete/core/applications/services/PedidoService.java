@@ -1,5 +1,15 @@
 package com.fiap.lanchonete.core.applications.services;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.fiap.lanchonete.core.applications.ports.ClienteRepository;
 import com.fiap.lanchonete.core.applications.ports.PedidoRepository;
 import com.fiap.lanchonete.core.applications.ports.ProdutoRepository;
@@ -8,13 +18,7 @@ import com.fiap.lanchonete.core.domain.Cliente;
 import com.fiap.lanchonete.core.domain.Pedido;
 import com.fiap.lanchonete.core.domain.Produto;
 import com.fiap.lanchonete.core.domain.exception.NotFoundException;
-import com.fiap.lanchonete.core.domain.type.StatusPagamento;
 import com.fiap.lanchonete.core.domain.type.StatusPedido;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 @Service
 public class PedidoService {

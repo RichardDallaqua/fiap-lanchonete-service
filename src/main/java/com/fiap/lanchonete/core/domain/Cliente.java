@@ -1,14 +1,16 @@
 package com.fiap.lanchonete.core.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import java.time.LocalDate;
+import java.util.UUID;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
-import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.Builder;
+import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Builder
@@ -22,5 +24,5 @@ public class Cliente {
     private String nome;
     private CPF cpf;
     private String telefone;
-    private LocalDate data;
+    private LocalDate dataCadastro;
 }

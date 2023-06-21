@@ -1,5 +1,6 @@
 package com.fiap.lanchonete.adapter.driver;
 
+import com.fiap.lanchonete.core.domain.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
@@ -9,9 +10,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.fiap.lanchonete.core.domain.dto.ErrorResponse;
-import com.fiap.lanchonete.core.domain.exception.InvalidTypeException;
-import com.fiap.lanchonete.core.domain.exception.NotFoundException;
-import com.fiap.lanchonete.core.domain.exception.PaymentNotApproved;
 
 @RestControllerAdvice
 public class ControllerAdvice {
@@ -48,10 +46,23 @@ public class ControllerAdvice {
     }
 
     @ResponseBody
-    @ExceptionHandler(PaymentNotApproved.class)
+    @ExceptionHandler(PaymentNotApprovedException.class)
     @ResponseStatus(HttpStatus.PAYMENT_REQUIRED)
-    public ErrorResponse handleHttpMessagePaymentNotApprovedException(
-            PaymentNotApproved paymentNotApproved) {
+    public ErrorResponse handlePaymentNotApprovedException(PaymentNotApprovedException paymentNotApproved) {
         return ErrorResponse.builder().message(paymentNotApproved.getMessage()).build();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(StatusNotAllowedException.class)
+    @ResponseStatus(HttpStatus.PRECONDITION_FAILED)
+    public ErrorResponse handleStatusNotAllowedException(StatusNotAllowedException statusNotAllowedException) {
+        return ErrorResponse.builder().message(statusNotAllowedException.getMessage()).build();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(EmptyOrderException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleEmptyOrderException(EmptyOrderException emptyOrderException) {
+        return ErrorResponse.builder().message(emptyOrderException.getMessage()).build();
     }
 }

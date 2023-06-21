@@ -22,6 +22,6 @@ public class PagamentoController {
     @PutMapping("/{idPedido}/realizarPagamento")
     public ResponseEntity<PagamentoResponse> realizarPagamento(@PathVariable("idPedido") UUID idPedido) {
 
-        return ResponseEntity.ok().body(pagamentoService.realizarPagamento(pagamentoService, idPedido));
+        return ResponseEntity.ok().body(pagamentoService.realizarPagamento(idPedido));
     }
 }

@@ -18,7 +18,7 @@ import com.fiap.lanchonete.core.domain.Cliente;
 import com.fiap.lanchonete.core.domain.Pedido;
 import com.fiap.lanchonete.core.domain.Produto;
 import com.fiap.lanchonete.core.domain.exception.NotFoundException;
-import com.fiap.lanchonete.core.domain.exception.PaymentNotApproved;
+import com.fiap.lanchonete.core.domain.exception.PaymentNotApprovedException;
 import com.fiap.lanchonete.core.domain.type.StatusPagamento;
 import com.fiap.lanchonete.core.domain.type.StatusPedido;
 
@@ -79,8 +79,10 @@ public class PedidoService {
 
         if (!statusPedido.equals(StatusPedido.CANCELADO)
                 && pedido.getStatusPagamento().equals(StatusPagamento.AGUARDANDO_PAGAMENTO)) {
-            throw new PaymentNotApproved("Alteração de status não permitida, pois o pagamento não efetuado");
+            throw new PaymentNotApprovedException("Alteração de status não permitida, pois o pagamento não efetuado");
         }
+
+        StatusPedido.verifyOrderOnUpdate(pedido.getStatusPedido(), statusPedido);
 
         pedido.setStatusPedido(statusPedido);
         pedidoRepository.save(pedido);

@@ -2,6 +2,7 @@ package com.fiap.lanchonete.core.applications.services;
 
 import java.util.UUID;
 
+import com.fiap.lanchonete.core.domain.exception.EmptyOrderException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,23 +18,28 @@ import com.fiap.lanchonete.core.domain.type.StatusPedido;
 public class PagamentoService {
 
     @Autowired
-    public PedidoRepository pedidoRepository;
+    private PedidoRepository pedidoRepository;
 
     @Autowired
-    public PagamentoClient pagamentoClient;
+    private PagamentoClient pagamentoClient;
 
-    public PagamentoResponse realizarPagamento(PagamentoService pagamentoService, UUID idPedido) {
-        Pedido pedido = pagamentoService.pedidoRepository.findByIdAndStatusPedido(idPedido, StatusPedido.ABERTO)
+    public PagamentoResponse realizarPagamento(UUID idPedido) {
+        Pedido pedido = pedidoRepository.findByIdAndStatusPedido(idPedido, StatusPedido.ABERTO)
                 .orElseThrow(
                         () -> new NotFoundException("Pedido não encontrado, ou apresenta status diferente de ABERTO"));
 
+        if(pedido.getProdutoList().isEmpty()){
+            throw new EmptyOrderException("O pedido não pode estar vazio para realizar pagamento");
+        }
+
         PagamentoResponse response = pagamentoClient.realizarPagamento(idPedido);
 
+        //TODO: implementar lógica para verificar pagamento recusado
         pedido.setStatusPagamento(response.getStatus());
         if (response.getStatus().equals(StatusPagamento.PAGAMENTO_APROVADO)) {
             pedido.setStatusPedido(StatusPedido.RECEBIDO);
         }
-        pagamentoService.pedidoRepository.save(pedido);
+        pedidoRepository.save(pedido);
 
         return response;
     }

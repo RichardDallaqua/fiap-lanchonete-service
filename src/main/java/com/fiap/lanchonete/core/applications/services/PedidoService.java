@@ -18,6 +18,8 @@ import com.fiap.lanchonete.core.domain.Cliente;
 import com.fiap.lanchonete.core.domain.Pedido;
 import com.fiap.lanchonete.core.domain.Produto;
 import com.fiap.lanchonete.core.domain.exception.NotFoundException;
+import com.fiap.lanchonete.core.domain.exception.PaymentNotApproved;
+import com.fiap.lanchonete.core.domain.type.StatusPagamento;
 import com.fiap.lanchonete.core.domain.type.StatusPedido;
 
 @Service
@@ -34,7 +36,7 @@ public class PedidoService {
 
     public Pedido iniciarPedido(String cpf) {
         Pedido pedido = Pedido.builder().id(UUID.randomUUID()).produtoList(new ArrayList<>()).quantidadeTotalDeItems(0)
-                .valorTotalDaCompra(BigDecimal.ZERO).build();
+                .valorTotalDaCompra(BigDecimal.ZERO).statusPagamento(StatusPagamento.AGUARDANDO_PAGAMENTO).build();
         if (Objects.isNull(cpf) || cpf.isBlank()) {
             pedido.setCliente(null);
         } else {
@@ -53,8 +55,7 @@ public class PedidoService {
                 .orElseThrow(() -> new NotFoundException("Produto não encontrado"));
         pedido.getProdutoList().add(produto);
         pedido.setQuantidadeTotalDeItems(pedido.getProdutoList().size());
-        BigDecimal valorTotal = pedido.getValorTotalDaCompra().add(produto.getPreco());
-        pedido.setValorTotalDaCompra(valorTotal);
+        pedido.setValorTotalDaCompra(pedido.getValorTotalDaCompra().add(produto.getPreco()));
         return pedidoRepository.save(pedido);
     }
 
@@ -65,8 +66,7 @@ public class PedidoService {
                 .orElseThrow(() -> new NotFoundException("Produto não encontrado no pedido"));
         pedido.getProdutoList().remove(produtoToRemove);
         pedido.setQuantidadeTotalDeItems(pedido.getProdutoList().size());
-        BigDecimal valorTotal = pedido.getValorTotalDaCompra().subtract(produtoToRemove.getPreco());
-        pedido.setValorTotalDaCompra(valorTotal);
+        pedido.setValorTotalDaCompra(pedido.getValorTotalDaCompra().subtract(produtoToRemove.getPreco()));
         return pedidoRepository.save(pedido);
     }
 
@@ -76,6 +76,12 @@ public class PedidoService {
 
     public void alterarStatusPedido(UUID id, StatusPedido statusPedido) {
         Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Pedido não encontrado"));
+
+        if (!statusPedido.equals(StatusPedido.CANCELADO)
+                && pedido.getStatusPagamento().equals(StatusPagamento.AGUARDANDO_PAGAMENTO)) {
+            throw new PaymentNotApproved("Alteração de status não permitida, pois o pagamento não efetuado");
+        }
+
         pedido.setStatusPedido(statusPedido);
         pedidoRepository.save(pedido);
     }

@@ -11,7 +11,7 @@ import com.fiap.lanchonete.core.domain.dto.PagamentoResponse;
 @Component
 public class PagamentoClient {
 
-    private static final String URL_MERCADO_PAGO = "https://007z3.mocklab.io/realizarpagamento/";
+    private static final String URL_MERCADO_PAGO = "https://007z3.mocklab.io/realizarpagamento/?id=";
 
     public PagamentoResponse realizarPagamento(UUID idPedido) {
 

@@ -22,9 +22,10 @@ public class PagamentoService {
     @Autowired
     public PagamentoClient pagamentoClient;
 
-    public void realizarPagamento(PagamentoService pagamentoService, UUID idPedido) {
-        Pedido pedido = pagamentoService.pedidoRepository.findById(idPedido)
-                .orElseThrow(() -> new NotFoundException("Pedido não encontrado"));
+    public PagamentoResponse realizarPagamento(PagamentoService pagamentoService, UUID idPedido) {
+        Pedido pedido = pagamentoService.pedidoRepository.findByIdAndStatusPedido(idPedido, StatusPedido.ABERTO)
+                .orElseThrow(
+                        () -> new NotFoundException("Pedido não encontrado, ou apresenta status diferente de ABERTO"));
 
         PagamentoResponse response = pagamentoClient.realizarPagamento(idPedido);
 
@@ -33,5 +34,7 @@ public class PagamentoService {
             pedido.setStatusPedido(StatusPedido.RECEBIDO);
         }
         pagamentoService.pedidoRepository.save(pedido);
+
+        return response;
     }
 }

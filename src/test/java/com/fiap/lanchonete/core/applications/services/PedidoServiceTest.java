@@ -152,7 +152,7 @@ public class PedidoServiceTest {
 
         Mockito.when(pedidoRepository.findById(idPedido)).thenReturn(Optional.of(pedido));
 
-        pedidoService.alterarStatusPedido(idPedido, StatusPedido.PREPARANDO_PEDIDO);
+        pedidoService.alterarStatusPedido(idPedido, StatusPedido.CANCELADO);
 
         Mockito.verify(pedidoRepository, Mockito.times(1)).save(Mockito.any());
 

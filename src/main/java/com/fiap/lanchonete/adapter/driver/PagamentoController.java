@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fiap.lanchonete.core.applications.services.PagamentoService;
+import com.fiap.lanchonete.core.domain.dto.PagamentoResponse;
 
 @RestController
 @RequestMapping("/pagamento")
@@ -19,8 +20,8 @@ public class PagamentoController {
     private PagamentoService pagamentoService;
 
     @PutMapping("/{idPedido}/realizarPagamento")
-    public ResponseEntity<Void> realizarPagamento(@PathVariable("idPedido") UUID idPedido) {
-        pagamentoService.realizarPagamento(pagamentoService, idPedido);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<PagamentoResponse> realizarPagamento(@PathVariable("idPedido") UUID idPedido) {
+
+        return ResponseEntity.ok().body(pagamentoService.realizarPagamento(pagamentoService, idPedido));
     }
 }

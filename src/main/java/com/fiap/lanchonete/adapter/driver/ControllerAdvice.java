@@ -1,8 +1,5 @@
 package com.fiap.lanchonete.adapter.driver;
 
-import com.fiap.lanchonete.core.domain.dto.ErrorResponse;
-import com.fiap.lanchonete.core.domain.exception.InvalidTypeException;
-import com.fiap.lanchonete.core.domain.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
@@ -10,6 +7,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.fiap.lanchonete.core.domain.dto.ErrorResponse;
+import com.fiap.lanchonete.core.domain.exception.InvalidTypeException;
+import com.fiap.lanchonete.core.domain.exception.NotFoundException;
+import com.fiap.lanchonete.core.domain.exception.PaymentNotApproved;
 
 @RestControllerAdvice
 public class ControllerAdvice {
@@ -43,5 +45,13 @@ public class ControllerAdvice {
     public ErrorResponse handleHttpMessageNotReadableException(
             HttpMessageNotReadableException httpMessageNotReadableException) {
         return ErrorResponse.builder().message(httpMessageNotReadableException.getMessage()).build();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(PaymentNotApproved.class)
+    @ResponseStatus(HttpStatus.PAYMENT_REQUIRED)
+    public ErrorResponse handleHttpMessagePaymentNotApprovedException(
+            PaymentNotApproved paymentNotApproved) {
+        return ErrorResponse.builder().message(paymentNotApproved.getMessage()).build();
     }
 }

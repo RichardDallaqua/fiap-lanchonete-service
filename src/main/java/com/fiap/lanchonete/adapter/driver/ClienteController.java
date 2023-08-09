@@ -1,5 +1,6 @@
 package com.fiap.lanchonete.adapter.driver;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fiap.lanchonete.core.applications.services.ClienteService;
+import com.fiap.lanchonete.core.domain.CPF;
 import com.fiap.lanchonete.core.domain.Cliente;
 import com.fiap.lanchonete.core.domain.dto.ClienteDTO;
 
@@ -36,6 +38,12 @@ public class ClienteController {
 
     @PostMapping
     public ResponseEntity<Cliente> criarCliente(@RequestBody ClienteDTO clienteDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.cadastrarCliente(clienteDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.cadastrarCliente(
+                Cliente.builder().id(UUID.randomUUID())
+                        .nome(clienteDTO.getNome())
+                        .cpf(new CPF(clienteDTO.getCpf()))
+                        .telefone(clienteDTO.getCpf())
+                        .dataCadastro(LocalDate.now())
+                        .build()));
     }
 }

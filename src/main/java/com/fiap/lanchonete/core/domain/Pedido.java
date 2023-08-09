@@ -1,17 +1,19 @@
 package com.fiap.lanchonete.core.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fiap.lanchonete.core.domain.type.StatusPagamento;
-import com.fiap.lanchonete.core.domain.type.StatusPedido;
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fiap.lanchonete.core.domain.type.StatusPagamento;
+import com.fiap.lanchonete.core.domain.type.StatusPedido;
+
+import lombok.Builder;
+import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Builder

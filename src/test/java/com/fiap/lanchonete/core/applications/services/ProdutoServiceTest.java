@@ -18,7 +18,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoSettings;
 
-import com.fiap.lanchonete.core.applications.ports.ProdutoRepository;
+import com.fiap.lanchonete.adapter.driven.dataprovider.repositories.ProdutoRepository;
 import com.fiap.lanchonete.core.domain.Produto;
 import com.fiap.lanchonete.core.domain.dto.ProdutoDTO;
 import com.fiap.lanchonete.core.domain.exception.NotFoundException;

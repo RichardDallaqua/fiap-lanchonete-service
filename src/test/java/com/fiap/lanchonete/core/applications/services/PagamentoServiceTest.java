@@ -1,7 +1,21 @@
 package com.fiap.lanchonete.core.applications.services;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+
+import java.util.Collections;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoSettings;
+
 import com.fiap.lanchonete.adapter.driven.PagamentoClient;
-import com.fiap.lanchonete.core.applications.ports.PedidoRepository;
+import com.fiap.lanchonete.adapter.driven.dataprovider.repositories.PedidoRepository;
 import com.fiap.lanchonete.core.domain.Pedido;
 import com.fiap.lanchonete.core.domain.Produto;
 import com.fiap.lanchonete.core.domain.dto.PagamentoResponse;
@@ -10,19 +24,6 @@ import com.fiap.lanchonete.core.domain.exception.NotFoundException;
 import com.fiap.lanchonete.core.domain.type.StatusPagamento;
 import com.fiap.lanchonete.core.domain.type.StatusPedido;
 import com.fiap.lanchonete.fixture.Fixture;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoSettings;
-
-import java.util.Collections;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 
 @MockitoSettings
 public class PagamentoServiceTest {
@@ -37,16 +38,14 @@ public class PagamentoServiceTest {
     private PagamentoService pagamentoService;
 
     @Test
-    void testPedidoNaoEncontrado(){
+    void testPedidoNaoEncontrado() {
         Mockito.when(pedidoRepository.findByIdAndStatusPedido(any(), any())).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> {
-           pagamentoService.realizarPagamento(UUID.randomUUID());
-        });
+        assertThrows(NotFoundException.class, () -> pagamentoService.realizarPagamento(UUID.randomUUID()));
     }
 
     @Test
-    void testPedidoVazio(){
+    void testPedidoVazio() {
         Pedido pedidoSalvo = Fixture.PedidoFixture.criarPedido();
         pedidoSalvo.setId(UUID.randomUUID());
         pedidoSalvo.setStatusPedido(StatusPedido.ABERTO);
@@ -59,7 +58,7 @@ public class PagamentoServiceTest {
     }
 
     @Test
-    void testPagamentoRealizado(){
+    void testPagamentoRealizado() {
         Pedido pedidoSalvo = Fixture.PedidoFixture.criarPedido();
         pedidoSalvo.setId(UUID.randomUUID());
         pedidoSalvo.setStatusPedido(StatusPedido.ABERTO);

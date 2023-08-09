@@ -14,9 +14,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoSettings;
 
-import com.fiap.lanchonete.core.applications.ports.ClienteRepository;
+import com.fiap.lanchonete.adapter.driven.dataprovider.repositories.ClienteRepository;
 import com.fiap.lanchonete.core.domain.Cliente;
-import com.fiap.lanchonete.core.domain.dto.ClienteDTO;
 import com.fiap.lanchonete.fixture.Fixture;
 
 @MockitoSettings
@@ -30,9 +29,9 @@ class ClienteServiceTest {
 
     @Test
     void testCadastrarCliente() {
-        ClienteDTO clienteDTO = Fixture.ClienteDTOFixture.criarClienteDTOPadrao();
+        Cliente cliente = Fixture.ClienteFixture.criarClientePadrao();
 
-        clienteService.cadastrarCliente(clienteDTO);
+        clienteService.cadastrarCliente(cliente);
 
         verify(clienteRepository, times(1)).save(any());
     }

@@ -10,9 +10,9 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fiap.lanchonete.core.applications.ports.ClienteRepository;
-import com.fiap.lanchonete.core.applications.ports.PedidoRepository;
-import com.fiap.lanchonete.core.applications.ports.ProdutoRepository;
+import com.fiap.lanchonete.adapter.driven.dataprovider.repositories.ClienteRepository;
+import com.fiap.lanchonete.adapter.driven.dataprovider.repositories.PedidoRepository;
+import com.fiap.lanchonete.adapter.driven.dataprovider.repositories.ProdutoRepository;
 import com.fiap.lanchonete.core.domain.CPF;
 import com.fiap.lanchonete.core.domain.Cliente;
 import com.fiap.lanchonete.core.domain.Pedido;

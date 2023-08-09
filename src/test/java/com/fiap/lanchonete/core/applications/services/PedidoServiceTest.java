@@ -1,15 +1,14 @@
 package com.fiap.lanchonete.core.applications.services;
 
-import com.fiap.lanchonete.core.applications.ports.ClienteRepository;
-import com.fiap.lanchonete.core.applications.ports.PedidoRepository;
-import com.fiap.lanchonete.core.applications.ports.ProdutoRepository;
-import com.fiap.lanchonete.core.domain.Cliente;
-import com.fiap.lanchonete.core.domain.Pedido;
-import com.fiap.lanchonete.core.domain.Produto;
-import com.fiap.lanchonete.core.domain.exception.PaymentNotApprovedException;
-import com.fiap.lanchonete.core.domain.type.StatusPagamento;
-import com.fiap.lanchonete.core.domain.type.StatusPedido;
-import com.fiap.lanchonete.fixture.Fixture;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.UUID;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,14 +16,16 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoSettings;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
+import com.fiap.lanchonete.adapter.driven.dataprovider.repositories.ClienteRepository;
+import com.fiap.lanchonete.adapter.driven.dataprovider.repositories.PedidoRepository;
+import com.fiap.lanchonete.adapter.driven.dataprovider.repositories.ProdutoRepository;
+import com.fiap.lanchonete.core.domain.Cliente;
+import com.fiap.lanchonete.core.domain.Pedido;
+import com.fiap.lanchonete.core.domain.Produto;
+import com.fiap.lanchonete.core.domain.exception.PaymentNotApprovedException;
+import com.fiap.lanchonete.core.domain.type.StatusPagamento;
+import com.fiap.lanchonete.core.domain.type.StatusPedido;
+import com.fiap.lanchonete.fixture.Fixture;
 
 @MockitoSettings
 public class PedidoServiceTest {
@@ -119,7 +120,7 @@ public class PedidoServiceTest {
     }
 
     @Test
-    void testAlterarStatusPedidoSemPagamento(){
+    void testAlterarStatusPedidoSemPagamento() {
         UUID idPedido = UUID.randomUUID();
 
         Pedido pedido = Fixture.PedidoFixture.criarPedido();
@@ -129,7 +130,9 @@ public class PedidoServiceTest {
 
         Mockito.when(pedidoRepository.findById(any())).thenReturn(Optional.of(pedido));
 
-        assertThrows(PaymentNotApprovedException.class, ()->{ pedidoService.alterarStatusPedido(idPedido, StatusPedido.PEDIDO_RETIRADO);});
+        assertThrows(PaymentNotApprovedException.class, () -> {
+            pedidoService.alterarStatusPedido(idPedido, StatusPedido.PEDIDO_RETIRADO);
+        });
     }
 
     @Test

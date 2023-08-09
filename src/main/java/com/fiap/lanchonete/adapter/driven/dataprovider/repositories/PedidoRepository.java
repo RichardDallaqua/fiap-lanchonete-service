@@ -1,4 +1,4 @@
-package com.fiap.lanchonete.core.applications.ports;
+package com.fiap.lanchonete.adapter.driven.dataprovider.repositories;
 
 import java.util.List;
 import java.util.Optional;

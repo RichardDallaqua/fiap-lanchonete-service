@@ -14,9 +14,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoSettings;
 
-import com.fiap.lanchonete.adapter.driven.dataprovider.repositories.ClienteRepository;
-import com.fiap.lanchonete.core.domain.Cliente;
+import com.fiap.lanchonete.dataprovider.database.cliente.repository.ClienteRepository;
+import com.fiap.lanchonete.domain.ClienteDomain;
 import com.fiap.lanchonete.fixture.Fixture;
+import com.fiap.lanchonete.services.ClienteService;
 
 @MockitoSettings
 class ClienteServiceTest {
@@ -29,7 +30,7 @@ class ClienteServiceTest {
 
     @Test
     void testCadastrarCliente() {
-        Cliente cliente = Fixture.ClienteFixture.criarClientePadrao();
+        ClienteDomain cliente = Fixture.ClienteFixture.criarClientePadrao();
 
         clienteService.cadastrarCliente(cliente);
 
@@ -38,11 +39,11 @@ class ClienteServiceTest {
 
     @Test
     void testBuscarClientePorIdExistente() throws Exception {
-        Cliente cliente = Fixture.ClienteFixture.criarClientePadrao();
+        ClienteDomain cliente = Fixture.ClienteFixture.criarClientePadrao();
 
         when(clienteRepository.findById(any())).thenReturn(Optional.of(cliente));
 
-        Cliente result = clienteService.buscarClientePorId(cliente.getId());
+        ClienteDomain result = clienteService.buscarClientePorId(cliente.getId());
 
         Assertions.assertEquals(cliente, result);
     }

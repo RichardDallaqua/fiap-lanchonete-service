@@ -16,16 +16,17 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoSettings;
 
-import com.fiap.lanchonete.adapter.driven.dataprovider.repositories.ClienteRepository;
-import com.fiap.lanchonete.adapter.driven.dataprovider.repositories.PedidoRepository;
-import com.fiap.lanchonete.adapter.driven.dataprovider.repositories.ProdutoRepository;
-import com.fiap.lanchonete.core.domain.Cliente;
-import com.fiap.lanchonete.core.domain.Pedido;
-import com.fiap.lanchonete.core.domain.Produto;
-import com.fiap.lanchonete.core.domain.exception.PaymentNotApprovedException;
-import com.fiap.lanchonete.core.domain.type.StatusPagamento;
-import com.fiap.lanchonete.core.domain.type.StatusPedido;
+import com.fiap.lanchonete.commons.exception.PaymentNotApprovedException;
+import com.fiap.lanchonete.commons.type.StatusPagamento;
+import com.fiap.lanchonete.commons.type.StatusPedido;
+import com.fiap.lanchonete.dataprovider.database.ProdutoRepository;
+import com.fiap.lanchonete.dataprovider.database.cliente.repository.ClienteRepository;
+import com.fiap.lanchonete.dataprovider.database.pedido.repository.PedidoRepository;
+import com.fiap.lanchonete.domain.ClienteDomain;
+import com.fiap.lanchonete.domain.PedidoDomain;
+import com.fiap.lanchonete.domain.ProdutoDomain;
 import com.fiap.lanchonete.fixture.Fixture;
+import com.fiap.lanchonete.services.PedidoService;
 
 @MockitoSettings
 public class PedidoServiceTest {
@@ -46,9 +47,9 @@ public class PedidoServiceTest {
     public void testIniciarPedido() {
         // Criando dados de entrada para o teste
         String cpf = "06452817000";
-        Cliente cliente = Fixture.ClienteFixture.criarClientePadrao();
+        ClienteDomain cliente = Fixture.ClienteFixture.criarClientePadrao();
 
-        Pedido pedidoSalvo = Fixture.PedidoFixture.criarPedido();
+        PedidoDomain pedidoSalvo = Fixture.PedidoFixture.criarPedido();
         pedidoSalvo.setId(UUID.randomUUID());
         pedidoSalvo.setStatusPedido(StatusPedido.ABERTO);
 
@@ -57,7 +58,7 @@ public class PedidoServiceTest {
         Mockito.when(pedidoRepository.save(Mockito.any())).thenReturn(pedidoSalvo);
 
         // Executando o método a ser testado
-        Pedido pedido = pedidoService.iniciarPedido(cpf);
+        PedidoDomain pedido = pedidoService.iniciarPedido(cpf);
 
         // Verificando o resultado
         Assertions.assertNotNull(pedido);
@@ -81,15 +82,15 @@ public class PedidoServiceTest {
         UUID idPedido = UUID.randomUUID();
         UUID idProduto = UUID.randomUUID();
 
-        Pedido pedido = Fixture.PedidoFixture.criarPedido();
+        PedidoDomain pedido = Fixture.PedidoFixture.criarPedido();
         pedido.setId(idPedido);
         pedido.setStatusPedido(StatusPedido.ABERTO);
 
-        Produto produto = new Produto();
+        ProdutoDomain produto = new ProdutoDomain();
         produto.setId(idProduto);
         produto.setPreco(BigDecimal.valueOf(10.0));
 
-        Pedido pedidoSalvo = Fixture.PedidoFixture.criarPedido();
+        PedidoDomain pedidoSalvo = Fixture.PedidoFixture.criarPedido();
         pedidoSalvo.setId(idPedido);
         pedidoSalvo.setStatusPedido(StatusPedido.ABERTO);
         pedidoSalvo.getProdutoList().add(produto);
@@ -103,7 +104,7 @@ public class PedidoServiceTest {
         Mockito.when(pedidoRepository.save(Mockito.any())).thenReturn(pedidoSalvo);
 
         // Executando o método a ser testado
-        Pedido pedidoAtualizado = pedidoService.adicionarProdutosPedido(idPedido, idProduto);
+        PedidoDomain pedidoAtualizado = pedidoService.adicionarProdutosPedido(idPedido, idProduto);
 
         // Verificando o resultado
         Assertions.assertNotNull(pedidoAtualizado);
@@ -123,7 +124,7 @@ public class PedidoServiceTest {
     void testAlterarStatusPedidoSemPagamento() {
         UUID idPedido = UUID.randomUUID();
 
-        Pedido pedido = Fixture.PedidoFixture.criarPedido();
+        PedidoDomain pedido = Fixture.PedidoFixture.criarPedido();
         pedido.setId(idPedido);
         pedido.setStatusPedido(StatusPedido.ABERTO);
         pedido.setStatusPagamento(StatusPagamento.AGUARDANDO_PAGAMENTO);
@@ -140,15 +141,15 @@ public class PedidoServiceTest {
         UUID idPedido = UUID.randomUUID();
         UUID idProduto = UUID.randomUUID();
 
-        Pedido pedido = Fixture.PedidoFixture.criarPedido();
+        PedidoDomain pedido = Fixture.PedidoFixture.criarPedido();
         pedido.setId(idPedido);
         pedido.setStatusPedido(StatusPedido.ABERTO);
 
-        Produto produto = new Produto();
+        ProdutoDomain produto = new ProdutoDomain();
         produto.setId(idProduto);
         produto.setPreco(BigDecimal.valueOf(10.0));
 
-        Pedido pedidoSalvo = Fixture.PedidoFixture.criarPedido();
+        PedidoDomain pedidoSalvo = Fixture.PedidoFixture.criarPedido();
         pedidoSalvo.setId(idPedido);
         pedidoSalvo.setStatusPedido(StatusPedido.ABERTO);
         pedidoSalvo.getProdutoList().add(produto);
@@ -166,7 +167,7 @@ public class PedidoServiceTest {
     public void testStatusPedidoAlterado() {
         UUID idPedido = UUID.randomUUID();
 
-        Pedido pedido = Fixture.PedidoFixture.criarPedido();
+        PedidoDomain pedido = Fixture.PedidoFixture.criarPedido();
         pedido.setId(idPedido);
         pedido.setStatusPedido(StatusPedido.ABERTO);
 

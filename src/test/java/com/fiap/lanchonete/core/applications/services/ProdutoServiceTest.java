@@ -18,12 +18,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoSettings;
 
-import com.fiap.lanchonete.adapter.driven.dataprovider.repositories.ProdutoRepository;
-import com.fiap.lanchonete.core.domain.Produto;
-import com.fiap.lanchonete.core.domain.dto.ProdutoDTO;
-import com.fiap.lanchonete.core.domain.exception.NotFoundException;
-import com.fiap.lanchonete.core.domain.type.CategoriaProduto;
+import com.fiap.lanchonete.commons.exception.NotFoundException;
+import com.fiap.lanchonete.commons.type.CategoriaProduto;
+import com.fiap.lanchonete.controller.dto.ProdutoDTO;
+import com.fiap.lanchonete.dataprovider.database.ProdutoRepository;
+import com.fiap.lanchonete.domain.ProdutoDomain;
 import com.fiap.lanchonete.fixture.Fixture;
+import com.fiap.lanchonete.services.ProdutoService;
 
 @MockitoSettings
 class ProdutoServiceTest {
@@ -45,13 +46,13 @@ class ProdutoServiceTest {
         ProdutoDTO produtoDTO = Fixture.ProdutoDTOFixture.createProdutoDTO();
 
         // Comportamento esperado do mock do repositório
-        when(produtoRepository.save(any(Produto.class))).thenReturn(Fixture.ProdutoFixture.createProduto());
+        when(produtoRepository.save(any(ProdutoDomain.class))).thenReturn(Fixture.ProdutoFixture.createProduto());
 
         // Chamada do método a ser testado
-        Produto result = produtoService.cadastrarProduto(produtoDTO);
+        ProdutoDomain result = produtoService.cadastrarProduto(produtoDTO);
 
         // Verificações
-        verify(produtoRepository, times(1)).save(any(Produto.class));
+        verify(produtoRepository, times(1)).save(any(ProdutoDomain.class));
         Assertions.assertNotNull(result);
     }
 
@@ -61,11 +62,11 @@ class ProdutoServiceTest {
         String categoria = CategoriaProduto.BEBIDA.toString();
 
         // Comportamento esperado do mock do repositório
-        List<Produto> produtos = new ArrayList<>();
+        List<ProdutoDomain> produtos = new ArrayList<>();
         when(produtoRepository.findAllByCategoria(any())).thenReturn(produtos);
 
         // Chamada do método a ser testado
-        List<Produto> result = produtoService.buscarProdutosCategoria(categoria);
+        List<ProdutoDomain> result = produtoService.buscarProdutosCategoria(categoria);
 
         // Verificações
         verify(produtoRepository, times(1)).findAllByCategoria(any());
@@ -79,16 +80,16 @@ class ProdutoServiceTest {
         ProdutoDTO produtoDTO = Fixture.ProdutoDTOFixture.createProdutoDTO();
 
         // Comportamento esperado do mock do repositório
-        Produto produtoMock = Fixture.ProdutoFixture.createProduto();
+        ProdutoDomain produtoMock = Fixture.ProdutoFixture.createProduto();
         when(produtoRepository.findById(any())).thenReturn(Optional.of(produtoMock));
-        when(produtoRepository.save(any(Produto.class))).thenReturn(produtoMock);
+        when(produtoRepository.save(any(ProdutoDomain.class))).thenReturn(produtoMock);
 
         // Chamada do método a ser testado
-        Produto result = produtoService.atualizarProduto(id, produtoDTO);
+        ProdutoDomain result = produtoService.atualizarProduto(id, produtoDTO);
 
         // Verificações
         verify(produtoRepository, times(1)).findById(any());
-        verify(produtoRepository, times(1)).save(any(Produto.class));
+        verify(produtoRepository, times(1)).save(any(ProdutoDomain.class));
         Assertions.assertNotNull(result);
     }
 
@@ -98,7 +99,7 @@ class ProdutoServiceTest {
         UUID id = UUID.randomUUID();
 
         // Comportamento esperado do mock do repositório
-        Produto produtoMock = Fixture.ProdutoFixture.createProduto();
+        ProdutoDomain produtoMock = Fixture.ProdutoFixture.createProduto();
         when(produtoRepository.findById(any())).thenReturn(Optional.of(produtoMock));
 
         // Chamada do método a ser testado
@@ -106,7 +107,7 @@ class ProdutoServiceTest {
 
         // Verificações
         verify(produtoRepository, times(1)).findById(any());
-        verify(produtoRepository, times(1)).delete(any(Produto.class));
+        verify(produtoRepository, times(1)).delete(any(ProdutoDomain.class));
     }
 
     @Test

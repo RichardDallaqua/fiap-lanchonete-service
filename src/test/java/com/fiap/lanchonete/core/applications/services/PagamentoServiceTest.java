@@ -14,16 +14,17 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoSettings;
 
-import com.fiap.lanchonete.adapter.driven.PagamentoClient;
-import com.fiap.lanchonete.adapter.driven.dataprovider.repositories.PedidoRepository;
-import com.fiap.lanchonete.core.domain.Pedido;
-import com.fiap.lanchonete.core.domain.Produto;
-import com.fiap.lanchonete.core.domain.dto.PagamentoResponse;
-import com.fiap.lanchonete.core.domain.exception.EmptyOrderException;
-import com.fiap.lanchonete.core.domain.exception.NotFoundException;
-import com.fiap.lanchonete.core.domain.type.StatusPagamento;
-import com.fiap.lanchonete.core.domain.type.StatusPedido;
+import com.fiap.lanchonete.commons.exception.EmptyOrderException;
+import com.fiap.lanchonete.commons.exception.NotFoundException;
+import com.fiap.lanchonete.commons.type.StatusPagamento;
+import com.fiap.lanchonete.commons.type.StatusPedido;
+import com.fiap.lanchonete.controller.dto.PagamentoResponseDTO;
+import com.fiap.lanchonete.dataprovider.database.pedido.repository.PedidoRepository;
+import com.fiap.lanchonete.dataprovider.pagamento.PagamentoClient;
+import com.fiap.lanchonete.domain.PedidoDomain;
+import com.fiap.lanchonete.domain.ProdutoDomain;
 import com.fiap.lanchonete.fixture.Fixture;
+import com.fiap.lanchonete.services.PagamentoService;
 
 @MockitoSettings
 public class PagamentoServiceTest {
@@ -46,7 +47,7 @@ public class PagamentoServiceTest {
 
     @Test
     void testPedidoVazio() {
-        Pedido pedidoSalvo = Fixture.PedidoFixture.criarPedido();
+        PedidoDomain pedidoSalvo = Fixture.PedidoFixture.criarPedido();
         pedidoSalvo.setId(UUID.randomUUID());
         pedidoSalvo.setStatusPedido(StatusPedido.ABERTO);
 
@@ -59,17 +60,17 @@ public class PagamentoServiceTest {
 
     @Test
     void testPagamentoRealizado() {
-        Pedido pedidoSalvo = Fixture.PedidoFixture.criarPedido();
+        PedidoDomain pedidoSalvo = Fixture.PedidoFixture.criarPedido();
         pedidoSalvo.setId(UUID.randomUUID());
         pedidoSalvo.setStatusPedido(StatusPedido.ABERTO);
-        pedidoSalvo.setProdutoList(Collections.singletonList(Produto.builder().build()));
+        pedidoSalvo.setProdutoList(Collections.singletonList(ProdutoDomain.builder().build()));
 
         Mockito.when(pedidoRepository.findByIdAndStatusPedido(any(), any())).thenReturn(Optional.of(pedidoSalvo));
-        PagamentoResponse clientResponse = new PagamentoResponse();
+        PagamentoResponseDTO clientResponse = new PagamentoResponseDTO();
         clientResponse.setStatus(StatusPagamento.PAGAMENTO_APROVADO);
         Mockito.when(pagamentoClient.realizarPagamento(any())).thenReturn(clientResponse);
 
-        PagamentoResponse response = pagamentoService.realizarPagamento(pedidoSalvo.getId());
+        PagamentoResponseDTO response = pagamentoService.realizarPagamento(pedidoSalvo.getId());
         assertEquals(StatusPagamento.PAGAMENTO_APROVADO, response.getStatus());
     }
 }

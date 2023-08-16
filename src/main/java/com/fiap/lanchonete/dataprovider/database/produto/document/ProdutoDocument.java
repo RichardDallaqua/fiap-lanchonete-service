@@ -1,4 +1,4 @@
-package com.fiap.lanchonete.dataprovider.database.documents;
+package com.fiap.lanchonete.dataprovider.database.produto.document;
 
 import java.math.BigDecimal;
 import java.util.UUID;

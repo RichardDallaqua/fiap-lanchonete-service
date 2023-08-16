@@ -14,14 +14,16 @@ import com.fiap.lanchonete.commons.exception.NotFoundException;
 import com.fiap.lanchonete.commons.exception.PaymentNotApprovedException;
 import com.fiap.lanchonete.commons.type.StatusPagamento;
 import com.fiap.lanchonete.commons.type.StatusPedido;
-import com.fiap.lanchonete.dataprovider.database.ProdutoRepository;
 import com.fiap.lanchonete.dataprovider.database.cliente.repository.ClienteRepository;
 import com.fiap.lanchonete.dataprovider.database.pedido.repository.PedidoRepository;
+import com.fiap.lanchonete.dataprovider.database.produto.repository.ProdutoRepository;
 import com.fiap.lanchonete.domain.CPFDomain;
 import com.fiap.lanchonete.domain.ClienteDomain;
 import com.fiap.lanchonete.domain.PedidoDomain;
 import com.fiap.lanchonete.domain.ProdutoDomain;
+import com.fiap.lanchonete.services.gateways.ClienteGateway;
 import com.fiap.lanchonete.services.gateways.PedidoGateway;
+import com.fiap.lanchonete.services.gateways.ProdutoGateway;
 
 @Service
 public class PedidoService {
@@ -30,19 +32,19 @@ public class PedidoService {
     private PedidoGateway pedidoGateway;
 
     @Autowired
-    private ClienteRepository clienteRepository;
+    private ClienteGateway clienteGateway;
 
     @Autowired
-    private ProdutoRepository produtoRepository;
+    private ProdutoGateway produtoGateway;
 
     public PedidoDomain iniciarPedido(String cpf) {
-        PedidoDomain pedido = PedidoDomain.builder().id(UUID.randomUUID()).produtoList(new ArrayList<>()).quantidadeTotalDeItems(0)
-                .valorTotalDaCompra(BigDecimal.ZERO).statusPagamento(StatusPagamento.AGUARDANDO_PAGAMENTO).build();
+        PedidoDomain pedido = PedidoDomain.builder().id(UUID.randomUUID()).produtoList(new ArrayList<>())
+                .quantidadeTotalDeItems(0).valorTotalDaCompra(BigDecimal.ZERO)
+                .statusPagamento(StatusPagamento.AGUARDANDO_PAGAMENTO).build();
         if (Objects.isNull(cpf) || cpf.isBlank()) {
             pedido.setCliente(null);
         } else {
-            ClienteDomain cliente = clienteRepository.findByCpf(new CPFDomain(cpf))
-                    .orElseThrow(() -> new NotFoundException("Cliente não encontrado"));
+            ClienteDomain cliente = clienteGateway.findByCpf(cpf);
             pedido.setCliente(cliente);
         }
         pedido.setStatusPedido(StatusPedido.ABERTO);
@@ -52,8 +54,7 @@ public class PedidoService {
 
     public PedidoDomain adicionarProdutosPedido(UUID idPedido, UUID idProduto) {
         PedidoDomain pedido = pedidoGateway.findByIdAndStatusPedido(idPedido, StatusPedido.ABERTO);
-        ProdutoDomain produto = produtoRepository.findById(idProduto)
-                .orElseThrow(() -> new NotFoundException("Produto não encontrado"));
+        ProdutoDomain produto = produtoGateway.findById(idProduto);
         pedido.getProdutoList().add(produto);
         pedido.setQuantidadeTotalDeItems(pedido.getProdutoList().size());
         pedido.setValorTotalDaCompra(pedido.getValorTotalDaCompra().add(produto.getPreco()));
@@ -63,13 +64,13 @@ public class PedidoService {
 
     public PedidoDomain removerProdutosPedido(UUID idPedido, UUID idProduto) {
         PedidoDomain pedido = pedidoGateway.findByIdAndStatusPedido(idPedido, StatusPedido.ABERTO);
-        ProdutoDomain produtoToRemove = pedido.getProdutoList().stream().filter(x -> x.getId().equals(idProduto)).findFirst()
-                .orElseThrow(() -> new NotFoundException("Produto não encontrado no pedido"));
+        ProdutoDomain produtoToRemove = pedido.getProdutoList().stream().filter(x -> x.getId().equals(idProduto))
+                .findFirst().orElseThrow(() -> new NotFoundException("Produto não encontrado no pedido"));
         pedido.getProdutoList().remove(produtoToRemove);
         pedido.setQuantidadeTotalDeItems(pedido.getProdutoList().size());
         pedido.setValorTotalDaCompra(pedido.getValorTotalDaCompra().subtract(produtoToRemove.getPreco()));
         pedidoGateway.save(pedido);
-        
+
         return pedido;
     }
 

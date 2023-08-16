@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fiap.lanchonete.commons.type.StatusPagamento;
 import com.fiap.lanchonete.commons.type.StatusPedido;
 import com.fiap.lanchonete.dataprovider.database.cliente.documents.ClienteDocument;
-import com.fiap.lanchonete.dataprovider.database.documents.ProdutoDocument;
+import com.fiap.lanchonete.dataprovider.database.produto.document.ProdutoDocument;
 
 import lombok.Builder;
 import lombok.Data;

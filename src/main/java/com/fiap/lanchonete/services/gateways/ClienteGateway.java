@@ -6,8 +6,9 @@ import com.fiap.lanchonete.domain.ClienteDomain;
 
 public interface ClienteGateway {
 
-	ClienteDomain findById(UUID id);
-	ClienteDomain findByCpf(String cpf);
+    ClienteDomain findById(UUID id);
 
-  void save(ClienteDomain clienteDomain);
+    ClienteDomain findByCpf(String cpf);
+
+    void save(ClienteDomain clienteDomain);
 }

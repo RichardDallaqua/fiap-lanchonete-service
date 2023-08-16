@@ -6,24 +6,15 @@ import com.fiap.lanchonete.domain.ClienteDomain;
 
 public class ClienteDocumentMapper {
 
-  public static ClienteDomain toDomain(ClienteDocument document) {
-  	return ClienteDomain.builder()
-    .id(document.getId())
-    .nome(document.getNome())
-    .cpf(new CPFDomain(document.getCpf()))
-    .telefone(document.getTelefone())
-    .dataCadastro(document.getDataCadastro())
-    .build();
-  }
-  
-  public static ClienteDocument toDocument(ClienteDomain domain) {
-  	return ClienteDocument.builder()
-    .id(domain.getId())
-    .nome(domain.getNome())
-    .cpf(domain.getCpf().getNumero())
-    .telefone(domain.getTelefone())
-    .dataCadastro(domain.getDataCadastro())
-    .build();
-  }
+    public static ClienteDomain toDomain(ClienteDocument document) {
+        return ClienteDomain.builder().id(document.getId()).nome(document.getNome())
+                .cpf(new CPFDomain(document.getCpf())).telefone(document.getTelefone())
+                .dataCadastro(document.getDataCadastro()).build();
+    }
+
+    public static ClienteDocument toDocument(ClienteDomain domain) {
+        return ClienteDocument.builder().id(domain.getId()).nome(domain.getNome()).cpf(domain.getCpf().getNumero())
+                .telefone(domain.getTelefone()).dataCadastro(domain.getDataCadastro()).build();
+    }
 
 }

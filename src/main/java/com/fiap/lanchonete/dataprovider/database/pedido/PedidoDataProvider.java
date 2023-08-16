@@ -15,30 +15,33 @@ import com.fiap.lanchonete.services.gateways.PedidoGateway;
 
 public class PedidoDataProvider implements PedidoGateway {
 
-	@Autowired
-	private PedidoRepository pedidoRepository;
+    @Autowired
+    private PedidoRepository pedidoRepository;
 
-	@Autowired
-	private PedidoDocumentMapper pedidoDocumentMapper;
-	
-	@Override
-	public PedidoDomain findByIdAndStatusPedido(UUID id, StatusPedido status) {
-		return pedidoDocumentMapper.toDomain(pedidoRepository.findByIdAndStatusPedido(id, status).orElseThrow(() -> new NotFoundException("Pedido não encontrado")));
-	}
+    @Autowired
+    private PedidoDocumentMapper pedidoDocumentMapper;
 
-	@Override
-	public PedidoDomain findById(UUID id) {
-		return pedidoDocumentMapper.toDomain(pedidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Pedido não encontrado")));
-	}
+    @Override
+    public PedidoDomain findByIdAndStatusPedido(UUID id, StatusPedido status) {
+        return pedidoDocumentMapper.toDomain(pedidoRepository.findByIdAndStatusPedido(id, status)
+                .orElseThrow(() -> new NotFoundException("Pedido não encontrado")));
+    }
 
-	@Override
-	public void save(PedidoDomain pedidoDomain) {
-		pedidoRepository.save(pedidoDocumentMapper.toDocument(pedidoDomain));
-	}
+    @Override
+    public PedidoDomain findById(UUID id) {
+        return pedidoDocumentMapper.toDomain(
+                pedidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Pedido não encontrado")));
+    }
 
-	@Override
-	public List<PedidoDomain> findAllExcept(List<StatusPedido> listStatusPedido) {
-		return pedidoDocumentMapper.toDomainList(pedidoRepository.findAllExcept(Arrays.asList(StatusPedido.PEDIDO_RETIRADO, StatusPedido.CANCELADO)));
-	}
+    @Override
+    public void save(PedidoDomain pedidoDomain) {
+        pedidoRepository.save(pedidoDocumentMapper.toDocument(pedidoDomain));
+    }
+
+    @Override
+    public List<PedidoDomain> findAllExcept(List<StatusPedido> listStatusPedido) {
+        return pedidoDocumentMapper.toDomainList(
+                pedidoRepository.findAllExcept(Arrays.asList(StatusPedido.PEDIDO_RETIRADO, StatusPedido.CANCELADO)));
+    }
 
 }

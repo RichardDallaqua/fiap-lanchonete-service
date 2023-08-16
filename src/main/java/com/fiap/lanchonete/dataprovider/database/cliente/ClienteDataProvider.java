@@ -13,27 +13,28 @@ import com.fiap.lanchonete.services.gateways.ClienteGateway;
 
 public class ClienteDataProvider implements ClienteGateway {
 
-  @Autowired
-  private ClienteRepository clienteRepository;
-  
-	@Override
-	public ClienteDomain findById(UUID id) {
-		try {
-			return ClienteDocumentMapper.toDomain(clienteRepository.findById(id).orElseThrow(() -> new NotFoundException("Cliente não encontrado")));
-		} catch (NotFoundException e) {
-			throw e;
-		}
-	}
+    @Autowired
+    private ClienteRepository clienteRepository;
 
-	@Override
-	public void save(ClienteDomain clienteDomain) {
-		clienteRepository.save(ClienteDocumentMapper.toDocument(clienteDomain));
-	}
+    @Override
+    public ClienteDomain findById(UUID id) {
+        try {
+            return ClienteDocumentMapper.toDomain(
+                    clienteRepository.findById(id).orElseThrow(() -> new NotFoundException("Cliente não encontrado")));
+        } catch (NotFoundException e) {
+            throw e;
+        }
+    }
 
-	@Override
-	public ClienteDomain findByCpf(String cpf) {
-		return ClienteDocumentMapper.toDomain(clienteRepository.findByCpf(id).orElseThrow(() -> new NotFoundException("Cliente não encontrado")));
-		return null;
-	}
+    @Override
+    public void save(ClienteDomain clienteDomain) {
+        clienteRepository.save(ClienteDocumentMapper.toDocument(clienteDomain));
+    }
+
+    @Override
+    public ClienteDomain findByCpf(String cpf) {
+        return ClienteDocumentMapper.toDomain(
+                clienteRepository.findByCpf(cpf).orElseThrow(() -> new NotFoundException("Cliente não encontrado")));
+    }
 
 }

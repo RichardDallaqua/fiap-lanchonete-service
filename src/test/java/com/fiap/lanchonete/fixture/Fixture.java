@@ -18,34 +18,31 @@ public class Fixture {
     public class ProdutoFixture {
 
         public static ProdutoDomain createProduto() {
-            return ProdutoDomain.builder().id(UUID.randomUUID()).nome("Produto Teste").descricao("Descrição do Produto Teste")
-                    .preco(new BigDecimal("9.99")).categoria(CategoriaProduto.BEBIDA).build();
+            return ProdutoDomain.builder().id(UUID.randomUUID()).nome("Produto Teste")
+                    .descricao("Descrição do Produto Teste").preco(new BigDecimal("9.99"))
+                    .categoria(CategoriaProduto.BEBIDA).build();
         }
     }
 
     public class ProdutoDTOFixture {
 
         public static ProdutoDTO createProdutoDTO() {
-            return ProdutoDTO.builder()
-                    .nome("Produto Teste")
-                    .descricao("Descrição do Produto Teste")
-                    .preco(new BigDecimal(9.99))
-                    .categoria(CategoriaProduto.BEBIDA)
-                    .build();
+            return ProdutoDTO.builder().nome("Produto Teste").descricao("Descrição do Produto Teste")
+                    .preco(new BigDecimal(9.99)).categoria(CategoriaProduto.BEBIDA).build();
         }
     }
 
     public class ClienteFixture {
         public static ClienteDomain criarClientePadrao() {
-            return ClienteDomain.builder().id(UUID.randomUUID()).nome("Richard Dallaqua").cpf(new CPFDomain("02366792018"))
-                    .telefone("1234567890").dataCadastro(LocalDate.of(1990, 1, 1)).build();
+            return ClienteDomain.builder().id(UUID.randomUUID()).nome("Richard Dallaqua")
+                    .cpf(new CPFDomain("02366792018")).telefone("1234567890").dataCadastro(LocalDate.of(1990, 1, 1))
+                    .build();
         }
     }
 
     public class ClienteDTOFixture {
         public static ClienteDTO criarClienteDTOPadrao() {
-            return ClienteDTO.builder().nome("Richard Dallaqua").cpf("02366792018")
-                    .telefone("1234567890").build();
+            return ClienteDTO.builder().nome("Richard Dallaqua").cpf("02366792018").telefone("1234567890").build();
         }
     }
 

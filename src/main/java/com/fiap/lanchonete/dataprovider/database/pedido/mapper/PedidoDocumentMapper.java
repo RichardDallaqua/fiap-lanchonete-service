@@ -10,8 +10,10 @@ import com.fiap.lanchonete.domain.PedidoDomain;
 @Mapper(componentModel = "spring")
 public interface PedidoDocumentMapper {
 
-  PedidoDomain toDomain(PedidoDocument document);
-  List<PedidoDomain> toDomainList(List<PedidoDocument> document);
-  PedidoDocument toDocument(PedidoDomain domain);
+    PedidoDomain toDomain(PedidoDocument document);
+
+    List<PedidoDomain> toDomainList(List<PedidoDocument> document);
+
+    PedidoDocument toDocument(PedidoDomain domain);
 
 }

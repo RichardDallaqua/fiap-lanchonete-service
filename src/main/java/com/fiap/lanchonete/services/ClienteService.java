@@ -11,9 +11,9 @@ import com.fiap.lanchonete.services.gateways.ClienteGateway;
 @Service
 public class ClienteService {
 
-		@Autowired
-		private ClienteGateway clienteGateway;
-	
+    @Autowired
+    private ClienteGateway clienteGateway;
+
     public ClienteDomain cadastrarCliente(ClienteDomain cliente) {
         clienteGateway.save(cliente);
         return cliente;

@@ -7,8 +7,11 @@ import com.fiap.lanchonete.commons.type.StatusPedido;
 import com.fiap.lanchonete.domain.PedidoDomain;
 
 public interface PedidoGateway {
-	PedidoDomain findByIdAndStatusPedido(UUID id, StatusPedido status);
-	PedidoDomain findById(UUID id);
-	List<PedidoDomain> findAllExcept(List<StatusPedido> listStatusPedido);
-  void save(PedidoDomain pedidoDomain);
+    PedidoDomain findByIdAndStatusPedido(UUID id, StatusPedido status);
+
+    PedidoDomain findById(UUID id);
+
+    List<PedidoDomain> findAllExcept(List<StatusPedido> listStatusPedido);
+
+    void save(PedidoDomain pedidoDomain);
 }

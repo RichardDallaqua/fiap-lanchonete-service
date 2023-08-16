@@ -38,12 +38,9 @@ public class ClienteController {
 
     @PostMapping
     public ResponseEntity<ClienteDomain> criarCliente(@RequestBody ClienteDTO clienteDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.cadastrarCliente(
-                ClienteDomain.builder().id(UUID.randomUUID())
-                        .nome(clienteDTO.getNome())
-                        .cpf(new CPFDomain(clienteDTO.getCpf()))
-                        .telefone(clienteDTO.getCpf())
-                        .dataCadastro(LocalDate.now())
-                        .build()));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(clienteService.cadastrarCliente(ClienteDomain.builder().id(UUID.randomUUID())
+                        .nome(clienteDTO.getNome()).cpf(new CPFDomain(clienteDTO.getCpf()))
+                        .telefone(clienteDTO.getCpf()).dataCadastro(LocalDate.now()).build()));
     }
 }

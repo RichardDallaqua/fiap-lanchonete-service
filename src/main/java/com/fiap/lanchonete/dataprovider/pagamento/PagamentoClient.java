@@ -16,10 +16,8 @@ public class PagamentoClient {
     public PagamentoResponseDTO realizarPagamento(UUID idPedido) {
 
         WebClient webClient = WebClient.create();
-        return webClient.get().uri(URL_MERCADO_PAGO.concat(idPedido.toString()))
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .bodyToMono(PagamentoResponseDTO.class).block();
+        return webClient.get().uri(URL_MERCADO_PAGO.concat(idPedido.toString())).accept(MediaType.APPLICATION_JSON)
+                .retrieve().bodyToMono(PagamentoResponseDTO.class).block();
     }
 
 }

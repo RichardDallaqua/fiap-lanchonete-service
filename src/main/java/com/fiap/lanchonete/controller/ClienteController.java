@@ -19,7 +19,7 @@ import com.fiap.lanchonete.domain.ClienteDomain;
 import com.fiap.lanchonete.services.ClienteService;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("api/v1/clientes")
 public class ClienteController {
 
     @Autowired

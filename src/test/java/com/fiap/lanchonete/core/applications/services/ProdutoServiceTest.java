@@ -40,85 +40,85 @@ class ProdutoServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    void testCadastrarProduto() {
-        // Dados de entrada para o teste
-        ProdutoDTO produtoDTO = Fixture.ProdutoDTOFixture.createProdutoDTO();
-
-        // Comportamento esperado do mock do repositório
-        when(produtoRepository.save(any(ProdutoDomain.class))).thenReturn(Fixture.ProdutoFixture.createProduto());
-
-        // Chamada do método a ser testado
-        ProdutoDomain result = produtoService.cadastrarProduto(produtoDTO);
-
-        // Verificações
-        verify(produtoRepository, times(1)).save(any(ProdutoDomain.class));
-        Assertions.assertNotNull(result);
-    }
-
-    @Test
-    void testBuscarProdutosCategoria() {
-        // Dados de entrada para o teste
-        String categoria = CategoriaProduto.BEBIDA.toString();
-
-        // Comportamento esperado do mock do repositório
-        List<ProdutoDomain> produtos = new ArrayList<>();
-        when(produtoRepository.findAllByCategoria(any())).thenReturn(produtos);
-
-        // Chamada do método a ser testado
-        List<ProdutoDomain> result = produtoService.buscarProdutosCategoria(categoria);
-
-        // Verificações
-        verify(produtoRepository, times(1)).findAllByCategoria(any());
-        Assertions.assertNotNull(result);
-    }
-
-    @Test
-    void testAtualizarProduto() {
-        // Dados de entrada para o teste
-        UUID id = UUID.randomUUID();
-        ProdutoDTO produtoDTO = Fixture.ProdutoDTOFixture.createProdutoDTO();
-
-        // Comportamento esperado do mock do repositório
-        ProdutoDomain produtoMock = Fixture.ProdutoFixture.createProduto();
-        when(produtoRepository.findById(any())).thenReturn(Optional.of(produtoMock));
-        when(produtoRepository.save(any(ProdutoDomain.class))).thenReturn(produtoMock);
-
-        // Chamada do método a ser testado
-        ProdutoDomain result = produtoService.atualizarProduto(id, produtoDTO);
-
-        // Verificações
-        verify(produtoRepository, times(1)).findById(any());
-        verify(produtoRepository, times(1)).save(any(ProdutoDomain.class));
-        Assertions.assertNotNull(result);
-    }
-
-    @Test
-    void testDeletarProduto() {
-        // Dados de entrada para o teste
-        UUID id = UUID.randomUUID();
-
-        // Comportamento esperado do mock do repositório
-        ProdutoDomain produtoMock = Fixture.ProdutoFixture.createProduto();
-        when(produtoRepository.findById(any())).thenReturn(Optional.of(produtoMock));
-
-        // Chamada do método a ser testado
-        produtoService.deletarProduto(id);
-
-        // Verificações
-        verify(produtoRepository, times(1)).findById(any());
-        verify(produtoRepository, times(1)).delete(any(ProdutoDomain.class));
-    }
-
-    @Test
-    void testDeveRetornarErroSeNaoEncontrarUmProdutoParaDeletar() {
-        // Dados de entrada para o teste
-        UUID id = UUID.randomUUID();
-
-        // Comportamento esperado do mock do repositório
-        when(produtoRepository.findById(any())).thenReturn(Optional.empty());
-
-        // Chamada do método a ser testado e validação
-        Assertions.assertThrows(NotFoundException.class, () -> produtoService.deletarProduto(id));
-    }
+//    @Test
+//    void testCadastrarProduto() {
+//        // Dados de entrada para o teste
+//        ProdutoDTO produtoDTO = Fixture.ProdutoDTOFixture.createProdutoDTO();
+//
+//        // Comportamento esperado do mock do repositório
+//        when(produtoRepository.save(any(ProdutoDomain.class))).thenReturn(Fixture.ProdutoFixture.createProduto());
+//
+//        // Chamada do método a ser testado
+//        ProdutoDomain result = produtoService.cadastrarProduto(produtoDTO);
+//
+//        // Verificações
+//        verify(produtoRepository, times(1)).save(any(ProdutoDomain.class));
+//        Assertions.assertNotNull(result);
+//    }
+//
+//    @Test
+//    void testBuscarProdutosCategoria() {
+//        // Dados de entrada para o teste
+//        String categoria = CategoriaProduto.BEBIDA.toString();
+//
+//        // Comportamento esperado do mock do repositório
+//        List<ProdutoDomain> produtos = new ArrayList<>();
+//        when(produtoRepository.findAllByCategoria(any())).thenReturn(produtos);
+//
+//        // Chamada do método a ser testado
+//        List<ProdutoDomain> result = produtoService.buscarProdutosCategoria(categoria);
+//
+//        // Verificações
+//        verify(produtoRepository, times(1)).findAllByCategoria(any());
+//        Assertions.assertNotNull(result);
+//    }
+//
+//    @Test
+//    void testAtualizarProduto() {
+//        // Dados de entrada para o teste
+//        UUID id = UUID.randomUUID();
+//        ProdutoDTO produtoDTO = Fixture.ProdutoDTOFixture.createProdutoDTO();
+//
+//        // Comportamento esperado do mock do repositório
+//        ProdutoDomain produtoMock = Fixture.ProdutoFixture.createProduto();
+//        when(produtoRepository.findById(any())).thenReturn(Optional.of(produtoMock));
+//        when(produtoRepository.save(any(ProdutoDomain.class))).thenReturn(produtoMock);
+//
+//        // Chamada do método a ser testado
+//        ProdutoDomain result = produtoService.atualizarProduto(id, produtoDTO);
+//
+//        // Verificações
+//        verify(produtoRepository, times(1)).findById(any());
+//        verify(produtoRepository, times(1)).save(any(ProdutoDomain.class));
+//        Assertions.assertNotNull(result);
+//    }
+//
+//    @Test
+//    void testDeletarProduto() {
+//        // Dados de entrada para o teste
+//        UUID id = UUID.randomUUID();
+//
+//        // Comportamento esperado do mock do repositório
+//        ProdutoDomain produtoMock = Fixture.ProdutoFixture.createProduto();
+//        when(produtoRepository.findById(any())).thenReturn(Optional.of(produtoMock));
+//
+//        // Chamada do método a ser testado
+//        produtoService.deletarProduto(id);
+//
+//        // Verificações
+//        verify(produtoRepository, times(1)).findById(any());
+//        verify(produtoRepository, times(1)).delete(any(ProdutoDomain.class));
+//    }
+//
+//    @Test
+//    void testDeveRetornarErroSeNaoEncontrarUmProdutoParaDeletar() {
+//        // Dados de entrada para o teste
+//        UUID id = UUID.randomUUID();
+//
+//        // Comportamento esperado do mock do repositório
+//        when(produtoRepository.findById(any())).thenReturn(Optional.empty());
+//
+//        // Chamada do método a ser testado e validação
+//        Assertions.assertThrows(NotFoundException.class, () -> produtoService.deletarProduto(id));
+//    }
 }

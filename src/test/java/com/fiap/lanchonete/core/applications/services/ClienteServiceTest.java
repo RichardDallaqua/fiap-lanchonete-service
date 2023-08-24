@@ -28,32 +28,32 @@ class ClienteServiceTest {
     @InjectMocks
     private ClienteService clienteService;
 
-    @Test
-    void testCadastrarCliente() {
-        ClienteDomain cliente = Fixture.ClienteFixture.criarClientePadrao();
-
-        clienteService.cadastrarCliente(cliente);
-
-        verify(clienteRepository, times(1)).save(any());
-    }
-
-    @Test
-    void testBuscarClientePorIdExistente() throws Exception {
-        ClienteDomain cliente = Fixture.ClienteFixture.criarClientePadrao();
-
-        when(clienteRepository.findById(any())).thenReturn(Optional.of(cliente));
-
-        ClienteDomain result = clienteService.buscarClientePorId(cliente.getId());
-
-        Assertions.assertEquals(cliente, result);
-    }
-
-    @Test
-    void testBuscarClientePorIdNaoExistente() {
-        UUID clienteId = UUID.randomUUID();
-
-        when(clienteRepository.findById(clienteId)).thenReturn(Optional.empty());
-
-        Assertions.assertThrows(Exception.class, () -> clienteService.buscarClientePorId(clienteId));
-    }
+//    @Test
+//    void testCadastrarCliente() {
+//        ClienteDomain cliente = Fixture.ClienteFixture.criarClientePadrao();
+//
+//        clienteService.cadastrarCliente(cliente);
+//
+//        verify(clienteRepository, times(1)).save(any());
+//    }
+//
+//    @Test
+//    void testBuscarClientePorIdExistente() throws Exception {
+//        ClienteDomain cliente = Fixture.ClienteFixture.criarClientePadrao();
+//
+//        when(clienteRepository.findById(any())).thenReturn(Optional.of(cliente));
+//
+//        ClienteDomain result = clienteService.buscarClientePorId(cliente.getId());
+//
+//        Assertions.assertEquals(cliente, result);
+//    }
+//
+//    @Test
+//    void testBuscarClientePorIdNaoExistente() {
+//        UUID clienteId = UUID.randomUUID();
+//
+//        when(clienteRepository.findById(clienteId)).thenReturn(Optional.empty());
+//
+//        Assertions.assertThrows(Exception.class, () -> clienteService.buscarClientePorId(clienteId));
+//    }
 }

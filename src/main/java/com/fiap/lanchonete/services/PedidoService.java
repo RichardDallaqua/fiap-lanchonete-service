@@ -1,41 +1,32 @@
 package com.fiap.lanchonete.services;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.fiap.lanchonete.commons.exception.NotFoundException;
 import com.fiap.lanchonete.commons.exception.PaymentNotApprovedException;
 import com.fiap.lanchonete.commons.type.StatusPagamento;
 import com.fiap.lanchonete.commons.type.StatusPedido;
-import com.fiap.lanchonete.dataprovider.database.cliente.repository.ClienteRepository;
-import com.fiap.lanchonete.dataprovider.database.pedido.repository.PedidoRepository;
-import com.fiap.lanchonete.dataprovider.database.produto.repository.ProdutoRepository;
-import com.fiap.lanchonete.domain.CPFDomain;
+import com.fiap.lanchonete.dataprovider.database.cliente.ClienteDataProvider;
+import com.fiap.lanchonete.dataprovider.database.pedido.PedidoDataProvider;
+import com.fiap.lanchonete.dataprovider.database.produto.ProdutoDataProvider;
 import com.fiap.lanchonete.domain.ClienteDomain;
 import com.fiap.lanchonete.domain.PedidoDomain;
 import com.fiap.lanchonete.domain.ProdutoDomain;
-import com.fiap.lanchonete.services.gateways.ClienteGateway;
-import com.fiap.lanchonete.services.gateways.PedidoGateway;
-import com.fiap.lanchonete.services.gateways.ProdutoGateway;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 @Service
 public class PedidoService {
 
     @Autowired
-    private PedidoGateway pedidoGateway;
+    private PedidoDataProvider pedidoGateway;
 
     @Autowired
-    private ClienteGateway clienteGateway;
+    private ClienteDataProvider clienteGateway;
 
     @Autowired
-    private ProdutoGateway produtoGateway;
+    private ProdutoDataProvider produtoGateway;
 
     public PedidoDomain iniciarPedido(String cpf) {
         PedidoDomain pedido = PedidoDomain.builder().id(UUID.randomUUID()).produtoList(new ArrayList<>())

@@ -1,23 +1,22 @@
 package com.fiap.lanchonete.services;
 
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.fiap.lanchonete.commons.exception.EmptyOrderException;
 import com.fiap.lanchonete.commons.type.StatusPagamento;
 import com.fiap.lanchonete.commons.type.StatusPedido;
 import com.fiap.lanchonete.controller.dto.PagamentoResponseDTO;
+import com.fiap.lanchonete.dataprovider.database.pedido.PedidoDataProvider;
 import com.fiap.lanchonete.dataprovider.pagamento.PagamentoClient;
 import com.fiap.lanchonete.domain.PedidoDomain;
-import com.fiap.lanchonete.services.gateways.PedidoGateway;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class PagamentoService {
 
     @Autowired
-    private PedidoGateway pedidoGateway;
+    private PedidoDataProvider pedidoGateway;
 
     @Autowired
     private PagamentoClient pagamentoClient;

@@ -11,7 +11,9 @@ import com.fiap.lanchonete.dataprovider.database.produto.mapper.ProdutoDocumentM
 import com.fiap.lanchonete.dataprovider.database.produto.repository.ProdutoRepository;
 import com.fiap.lanchonete.domain.ProdutoDomain;
 import com.fiap.lanchonete.services.gateways.ProdutoGateway;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProdutoDataProvider implements ProdutoGateway {
 
     @Autowired

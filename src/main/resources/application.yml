@@ -4,4 +4,10 @@ application:
 spring:
   data:
     mongodb:
-      uri: ${MONGO_URL:mongodb://localhost:27017/db}
+      uri: ${MONGO_URL:mongodb://root:root@127.0.0.1:27017/db}
+
+
+server:
+  port: 5000
+  servlet:
+    context-path: /lanchonete

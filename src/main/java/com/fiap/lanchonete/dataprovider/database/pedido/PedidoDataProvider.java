@@ -12,7 +12,9 @@ import com.fiap.lanchonete.dataprovider.database.pedido.mapper.PedidoDocumentMap
 import com.fiap.lanchonete.dataprovider.database.pedido.repository.PedidoRepository;
 import com.fiap.lanchonete.domain.PedidoDomain;
 import com.fiap.lanchonete.services.gateways.PedidoGateway;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PedidoDataProvider implements PedidoGateway {
 
     @Autowired

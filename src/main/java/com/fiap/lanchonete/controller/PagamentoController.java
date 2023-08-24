@@ -13,7 +13,7 @@ import com.fiap.lanchonete.controller.dto.PagamentoResponseDTO;
 import com.fiap.lanchonete.services.PagamentoService;
 
 @RestController
-@RequestMapping("/pagamento")
+@RequestMapping("api/v1/pagamento")
 public class PagamentoController {
 
     @Autowired

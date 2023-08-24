@@ -10,7 +10,9 @@ import com.fiap.lanchonete.dataprovider.database.cliente.mapper.ClienteDocumentM
 import com.fiap.lanchonete.dataprovider.database.cliente.repository.ClienteRepository;
 import com.fiap.lanchonete.domain.ClienteDomain;
 import com.fiap.lanchonete.services.gateways.ClienteGateway;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ClienteDataProvider implements ClienteGateway {
 
     @Autowired

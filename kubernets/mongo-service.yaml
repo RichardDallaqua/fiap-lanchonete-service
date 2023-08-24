@@ -1,14 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app: mongo
-  name: mongo-loadbalancer-svc
+  name: mongo-service
 spec:
-  ports:
-    - port: 27017
-      protocol: TCP
-      targetPort: 27017
   selector:
-    app: mongodb-pod
-  type: LoadBalancer
+    app: mongo
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017

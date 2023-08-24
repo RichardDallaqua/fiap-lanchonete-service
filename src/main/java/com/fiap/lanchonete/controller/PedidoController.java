@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/pedidos")
+@RequestMapping("api/v1/pedidos")
 public class PedidoController {
 
     @Autowired

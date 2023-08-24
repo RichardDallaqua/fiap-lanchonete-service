@@ -2,6 +2,7 @@ package com.fiap.lanchonete.dataprovider.database.pedido.mapper;
 
 import java.util.List;
 
+import com.fiap.lanchonete.domain.CPFDomain;
 import org.mapstruct.Mapper;
 
 import com.fiap.lanchonete.dataprovider.database.pedido.documents.PedidoDocument;
@@ -16,4 +17,7 @@ public interface PedidoDocumentMapper {
 
     PedidoDocument toDocument(PedidoDomain domain);
 
+    String toCPFString(CPFDomain domain);
+
+    CPFDomain toCPFDomain(String CPF);
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import com.fiap.lanchonete.dataprovider.database.produto.ProdutoDataProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ import com.fiap.lanchonete.services.gateways.ProdutoGateway;
 public class ProdutoService {
 
     @Autowired
-    private ProdutoGateway produtoGateway;
+    private ProdutoDataProvider produtoGateway;
 
     public ProdutoDomain cadastrarProduto(ProdutoDTO produtoDTO) {
         ProdutoDomain produto = ProdutoDomain.builder().id(UUID.randomUUID()).nome(produtoDTO.getNome())

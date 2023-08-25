@@ -9,6 +9,8 @@ import com.fiap.lanchonete.commons.type.CategoriaProduto;
 import com.fiap.lanchonete.commons.type.StatusPedido;
 import com.fiap.lanchonete.controller.dto.ClienteDTO;
 import com.fiap.lanchonete.controller.dto.ProdutoDTO;
+import com.fiap.lanchonete.dataprovider.database.cliente.documents.ClienteDocument;
+import com.fiap.lanchonete.dataprovider.database.pedido.documents.PedidoDocument;
 import com.fiap.lanchonete.domain.CPFDomain;
 import com.fiap.lanchonete.domain.ClienteDomain;
 import com.fiap.lanchonete.domain.PedidoDomain;
@@ -38,7 +40,9 @@ public class Fixture {
                     .cpf(new CPFDomain("02366792018")).telefone("1234567890").dataCadastro(LocalDate.of(1990, 1, 1))
                     .build();
         }
+
     }
+
 
     public class ClienteDTOFixture {
         public static ClienteDTO criarClienteDTOPadrao() {

@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.fiap.lanchonete.dataprovider.database.pedido.PedidoDataProvider;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -30,47 +31,47 @@ import com.fiap.lanchonete.services.PagamentoService;
 public class PagamentoServiceTest {
 
     @Mock
-    private PedidoRepository pedidoRepository;
+    private PagamentoClient pagamentoClient;
 
     @Mock
-    private PagamentoClient pagamentoClient;
+    private PedidoDataProvider pedidoGateway;
 
     @InjectMocks
     private PagamentoService pagamentoService;
 
-//    @Test
-//    void testPedidoNaoEncontrado() {
-//        Mockito.when(pedidoRepository.findByIdAndStatusPedido(any(), any())).thenReturn(Optional.empty());
-//
-//        assertThrows(NotFoundException.class, () -> pagamentoService.realizarPagamento(UUID.randomUUID()));
-//    }
-//
-//    @Test
-//    void testPedidoVazio() {
-//        PedidoDomain pedidoSalvo = Fixture.PedidoFixture.criarPedido();
-//        pedidoSalvo.setId(UUID.randomUUID());
-//        pedidoSalvo.setStatusPedido(StatusPedido.ABERTO);
-//
-//        Mockito.when(pedidoRepository.findByIdAndStatusPedido(any(), any())).thenReturn(Optional.of(pedidoSalvo));
-//
-//        assertThrows(EmptyOrderException.class, () -> {
-//            pagamentoService.realizarPagamento(UUID.randomUUID());
-//        });
-//    }
-//
-//    @Test
-//    void testPagamentoRealizado() {
-//        PedidoDomain pedidoSalvo = Fixture.PedidoFixture.criarPedido();
-//        pedidoSalvo.setId(UUID.randomUUID());
-//        pedidoSalvo.setStatusPedido(StatusPedido.ABERTO);
-//        pedidoSalvo.setProdutoList(Collections.singletonList(ProdutoDomain.builder().build()));
-//
-//        Mockito.when(pedidoRepository.findByIdAndStatusPedido(any(), any())).thenReturn(Optional.of(pedidoSalvo));
-//        PagamentoResponseDTO clientResponse = new PagamentoResponseDTO();
-//        clientResponse.setStatus(StatusPagamento.PAGAMENTO_APROVADO);
-//        Mockito.when(pagamentoClient.realizarPagamento(any())).thenReturn(clientResponse);
-//
-//        PagamentoResponseDTO response = pagamentoService.realizarPagamento(pedidoSalvo.getId());
-//        assertEquals(StatusPagamento.PAGAMENTO_APROVADO, response.getStatus());
-//    }
+    @Test
+    void testPedidoNaoEncontrado() {
+        Mockito.when(pedidoGateway.findByIdAndStatusPedido(any(), any())).thenThrow(NotFoundException.class);
+
+        assertThrows(NotFoundException.class, () -> pagamentoService.realizarPagamento(UUID.randomUUID()));
+    }
+
+    @Test
+    void testPedidoVazio() {
+        PedidoDomain pedidoSalvo = Fixture.PedidoFixture.criarPedido();
+        pedidoSalvo.setId(UUID.randomUUID());
+        pedidoSalvo.setStatusPedido(StatusPedido.ABERTO);
+
+        Mockito.when(pedidoGateway.findByIdAndStatusPedido(any(), any())).thenReturn(pedidoSalvo);
+
+        assertThrows(EmptyOrderException.class, () -> {
+            pagamentoService.realizarPagamento(UUID.randomUUID());
+        });
+    }
+
+    @Test
+    void testPagamentoRealizado() {
+        PedidoDomain pedidoSalvo = Fixture.PedidoFixture.criarPedido();
+        pedidoSalvo.setId(UUID.randomUUID());
+        pedidoSalvo.setStatusPedido(StatusPedido.ABERTO);
+        pedidoSalvo.setProdutoList(Collections.singletonList(ProdutoDomain.builder().build()));
+
+        Mockito.when(pedidoGateway.findByIdAndStatusPedido(any(), any())).thenReturn(pedidoSalvo);
+        PagamentoResponseDTO clientResponse = new PagamentoResponseDTO();
+        clientResponse.setStatus(StatusPagamento.PAGAMENTO_APROVADO);
+        Mockito.when(pagamentoClient.realizarPagamento(any())).thenReturn(clientResponse);
+
+        PagamentoResponseDTO response = pagamentoService.realizarPagamento(pedidoSalvo.getId());
+        assertEquals(StatusPagamento.PAGAMENTO_APROVADO, response.getStatus());
+    }
 }

@@ -73,6 +73,10 @@ public class PedidoService {
         return pedidoGateway.findById(idPedido);
     }
 
+    public StatusPagamento buscarStatusPagamento(UUID idPedido) {
+        return pedidoGateway.findById(idPedido).getStatusPagamento();
+    }
+
     public void alterarStatusPedido(UUID id, StatusPedido statusPedido) {
         PedidoDomain pedido = pedidoGateway.findById(id);
 

@@ -1,5 +1,6 @@
 package com.fiap.lanchonete.controller;
 
+import com.fiap.lanchonete.commons.type.StatusPagamento;
 import com.fiap.lanchonete.commons.type.StatusPedido;
 import com.fiap.lanchonete.domain.PedidoDomain;
 import com.fiap.lanchonete.services.PedidoService;
@@ -39,6 +40,11 @@ public class PedidoController {
     @GetMapping()
     public ResponseEntity<List<PedidoDomain>> listarPedidos() {
         return ResponseEntity.ok(pedidoService.listarPedidosNaoFinalizados());
+    }
+
+    @GetMapping("/{idPedido}/statusPagamento")
+    public ResponseEntity<StatusPagamento> alterarStatus(@PathVariable("idPedido") UUID idPedido) {
+        return ResponseEntity.ok(pedidoService.buscarStatusPagamento(idPedido));
     }
 
     @GetMapping("/{idPedido}/buscar")

@@ -5,4 +5,4 @@ metadata:
   labels:
     name: lanchonete-config
 data:
-  MONGO_URL: mongodb://root:root@mongo-service:27017/db
+  MONGO_URL: mongodb://root:root@mongo-service:27017/db?authSource=admin

@@ -4,7 +4,12 @@ application:
 spring:
   data:
     mongodb:
-      uri: ${MONGO_URL:mongodb://root:root@127.0.0.1:27017/db}
+      uri: ${MONGO_URL:mongodb://root:root@127.0.0.1:27017/db?authSource=admin}
+  rabbitmq:
+      host: ${RABBIT_HOST:localhost}
+      port: 5672
+      username: ${RABBIT_USER:teste}
+      password: ${RABBIT_PASS:teste}
 
 
 server:

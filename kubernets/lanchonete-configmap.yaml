@@ -6,3 +6,6 @@ metadata:
     name: lanchonete-config
 data:
   MONGO_URL: mongodb://root:root@mongo-service:27017/db?authSource=admin
+  RABBIT_HOST: rabbitmq-service
+  RABBIT_USER: teste
+  RABBIT_PASS: teste

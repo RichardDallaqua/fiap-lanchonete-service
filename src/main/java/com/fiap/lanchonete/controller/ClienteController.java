@@ -41,6 +41,6 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(clienteService.cadastrarCliente(ClienteDomain.builder().id(UUID.randomUUID())
                         .nome(clienteDTO.getNome()).cpf(new CPFDomain(clienteDTO.getCpf()))
-                        .telefone(clienteDTO.getCpf()).dataCadastro(LocalDate.now()).build()));
+                        .telefone(clienteDTO.getTelefone()).dataCadastro(LocalDate.now()).build()));
     }
 }

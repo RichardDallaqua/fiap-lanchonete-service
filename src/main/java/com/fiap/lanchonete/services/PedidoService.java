@@ -69,6 +69,10 @@ public class PedidoService {
         return pedidoGateway.findAllExcept(Arrays.asList(StatusPedido.PEDIDO_RETIRADO, StatusPedido.CANCELADO));
     }
 
+    public PedidoDomain listarDadosDoPedido(UUID idPedido) {
+        return pedidoGateway.findById(idPedido);
+    }
+
     public void alterarStatusPedido(UUID id, StatusPedido statusPedido) {
         PedidoDomain pedido = pedidoGateway.findById(id);
 

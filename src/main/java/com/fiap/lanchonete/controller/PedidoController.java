@@ -41,6 +41,11 @@ public class PedidoController {
         return ResponseEntity.ok(pedidoService.listarPedidosNaoFinalizados());
     }
 
+    @GetMapping("/{idPedido}/buscar")
+    public ResponseEntity<PedidoDomain> listarDadosPedido(@PathVariable("idPedido") UUID idPedido) {
+        return ResponseEntity.ok(pedidoService.listarDadosDoPedido(idPedido));
+    }
+
     @PutMapping("/{idPedido}/status/{status}")
     public ResponseEntity<Void> alterarStatus(@PathVariable("idPedido") UUID idPedido,
             @PathVariable("status") StatusPedido statusPedido) {

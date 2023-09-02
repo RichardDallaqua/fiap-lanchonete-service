@@ -22,7 +22,7 @@ public class ClienteDocument {
     @Id
     private UUID id;
     private String nome;
-    private String cpf;
+    private CPFDocument cpf;
     private String telefone;
     private LocalDate dataCadastro;
 }

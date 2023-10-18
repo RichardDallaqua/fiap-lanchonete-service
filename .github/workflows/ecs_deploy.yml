@@ -1,5 +1,8 @@
 name: AWS ECS Deploy
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:

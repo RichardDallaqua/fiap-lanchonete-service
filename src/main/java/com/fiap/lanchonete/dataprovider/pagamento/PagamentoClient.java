@@ -27,7 +27,7 @@ public class PagamentoClient {
     public void realizarPagamento(UUID idPedido) {
 
         WebClient webClient = WebClient.create();
-        PagamentoResponseDTO pagamentoResponseDTO =  webClient.get().uri(URL_MERCADO_PAGO.concat(idPedido.toString())).accept(MediaType.APPLICATION_JSON)
+        PagamentoResponseDTO pagamentoResponseDTO = webClient.get().uri(URL_MERCADO_PAGO.concat(idPedido.toString())).accept(MediaType.APPLICATION_JSON)
                 .retrieve().bodyToMono(PagamentoResponseDTO.class).block();
         pagamentoResponseDTO.setIdPedido(idPedido);
         sendPaymentWebhook(pagamentoResponseDTO);

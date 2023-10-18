@@ -3,12 +3,15 @@ package com.fiap.lanchonete.core.applications.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
 
 import com.fiap.lanchonete.dataprovider.database.pedido.PedidoDataProvider;
+import com.fiap.lanchonete.webhook.WebhookProducer;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -69,9 +72,8 @@ public class PagamentoServiceTest {
         Mockito.when(pedidoGateway.findByIdAndStatusPedido(any(), any())).thenReturn(pedidoSalvo);
         PagamentoResponseDTO clientResponse = new PagamentoResponseDTO();
         clientResponse.setStatus(StatusPagamento.PAGAMENTO_APROVADO);
-        Mockito.when(pagamentoClient.realizarPagamento(any())).thenReturn(clientResponse);
+        Mockito.doNothing().when(pagamentoClient).realizarPagamento(any());
 
-        PagamentoResponseDTO response = pagamentoService.realizarPagamento(pedidoSalvo.getId());
-        assertEquals(StatusPagamento.PAGAMENTO_APROVADO, response.getStatus());
+        pagamentoService.realizarPagamento(pedidoSalvo.getId());
     }
 }

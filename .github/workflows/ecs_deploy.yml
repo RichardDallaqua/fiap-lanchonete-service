@@ -1,16 +1,20 @@
 name: AWS ECS Deploy
 
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  AWS_REGION: us-east-2
+
 permissions:
   contents: read
 
-on:
-  push:
-    branches:
-      - main
-
 jobs:
-  build-and-push:
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
       - name: Checkout Code
@@ -21,7 +25,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -30,7 +34,7 @@ jobs:
       - name: Build and Push Docker Image
         env:
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-          AWS_DEFAULT_REGION: us-east-2
+          AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
         run: |
           docker build -t fiap-lanchonete-service-lanchonete .
           docker tag fiap-lanchonete-service-lanchonete:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/fiap-lachonete-service-lanchonete:latest

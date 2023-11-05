@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.fiap.lanchonete.commons.utils.JwtDecode;
 import com.fiap.lanchonete.dataprovider.database.cliente.ClienteDataProvider;
 import com.fiap.lanchonete.dataprovider.database.pedido.PedidoDataProvider;
 import com.fiap.lanchonete.dataprovider.database.produto.ProdutoDataProvider;
@@ -50,14 +51,15 @@ public class PedidoServiceTest {
     @Test
     public void testIniciarPedido() {
         // Criando dados de entrada para o teste
-        String cpf = "06452817000";
+        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21lIjoiUmljaGFyZCBHYWJyaWVsIERhbGxhcXVhIiwiaWQiOiI0MTYzOTc5NTgxMiIsInRlbGVmb25lIjoiNDAwMjg5MjIifQ.iMN8B0cmZWKQQ5IC7_WZsVALBq5qDP8fwv7WPl7u6MI";
         ClienteDomain cliente = Fixture.ClienteFixture.criarClientePadrao();
 
         // Configurando o comportamento dos mocks
+        //Mockito.when(JwtDecode.getCPFFromJWT(Mockito.any())).thenReturn(cpf);
         Mockito.when(clienteGateway.findByCpf(Mockito.any())).thenReturn(cliente);
         Mockito.doNothing().when(pedidoGateway).save(any());
         // Executando o método a ser testado
-        PedidoDomain pedido = pedidoService.iniciarPedido(cpf);
+        PedidoDomain pedido = pedidoService.iniciarPedido(token);
 
         // Verificando o resultado
         Assertions.assertNotNull(pedido);

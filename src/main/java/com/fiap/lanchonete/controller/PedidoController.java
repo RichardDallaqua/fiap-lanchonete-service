@@ -5,6 +5,7 @@ import com.fiap.lanchonete.commons.type.StatusPedido;
 import com.fiap.lanchonete.domain.PedidoDomain;
 import com.fiap.lanchonete.services.PedidoService;
 
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,8 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @PostMapping
-    public ResponseEntity<PedidoDomain> iniciarPedido(@RequestParam(value = "cpf", required = false) String cpf) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.iniciarPedido(cpf));
+    public ResponseEntity<PedidoDomain> iniciarPedido(@RequestHeader String authorization) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.iniciarPedido(authorization));
     }
 
     @PutMapping("/{idPedido}/adicionar/{idProduto}")

@@ -4,6 +4,7 @@ import com.fiap.lanchonete.commons.exception.NotFoundException;
 import com.fiap.lanchonete.commons.exception.PaymentNotApprovedException;
 import com.fiap.lanchonete.commons.type.StatusPagamento;
 import com.fiap.lanchonete.commons.type.StatusPedido;
+import com.fiap.lanchonete.commons.utils.JwtDecode;
 import com.fiap.lanchonete.dataprovider.database.cliente.ClienteDataProvider;
 import com.fiap.lanchonete.dataprovider.database.pedido.PedidoDataProvider;
 import com.fiap.lanchonete.dataprovider.database.produto.ProdutoDataProvider;
@@ -28,7 +29,8 @@ public class PedidoService {
     @Autowired
     private ProdutoDataProvider produtoGateway;
 
-    public PedidoDomain iniciarPedido(String cpf) {
+    public PedidoDomain iniciarPedido(String authorization) {
+        String cpf = JwtDecode.getCPFFromJWT(authorization);
         PedidoDomain pedido = PedidoDomain.builder().id(UUID.randomUUID()).produtoList(new ArrayList<>())
                 .quantidadeTotalDeItems(0).valorTotalDaCompra(BigDecimal.ZERO)
                 .statusPagamento(StatusPagamento.AGUARDANDO_PAGAMENTO).build();
